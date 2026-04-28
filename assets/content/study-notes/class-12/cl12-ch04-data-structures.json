@@ -1,0 +1,85 @@
+{
+  "id": "cl12-ch04-data-structures",
+  "classLevel": 12,
+  "chapterNumber": 4,
+  "title": "Data Structures",
+  "tags": ["stack", "queue", "linked list", "data structures", "CBSE", "class 12"],
+  "sections": [
+    {
+      "id": "ds-intro",
+      "heading": "Introduction to Data Structures",
+      "content": "A data structure is a way of organising and storing data so that it can be accessed and modified efficiently. Python provides built-in data structures like lists, tuples, sets, and dictionaries, and allows custom structures like stacks and queues.",
+      "keyPoints": [
+        "Data structures organise data for efficient access and modification",
+        "Linear data structures: Stack, Queue, Linked List",
+        "Non-linear data structures: Trees, Graphs",
+        "Python lists are used to implement stacks and queues"
+      ]
+    },
+    {
+      "id": "ds-stack",
+      "heading": "Stack",
+      "content": "A stack is a linear data structure that follows the LIFO (Last In, First Out) principle. The element inserted last is removed first. Think of a stack of plates — you add and remove from the top.",
+      "keyPoints": [
+        "LIFO — Last In, First Out",
+        "Push: Insert element at the top",
+        "Pop: Remove element from the top",
+        "Peek/Top: View the top element without removing",
+        "isEmpty: Check if stack is empty",
+        "Python list can implement stack using append() and pop()"
+      ],
+      "codeExample": {
+        "language": "python",
+        "code": "# Stack implementation using Python list\nstack = []\n\n# Push operation\nstack.append(10)\nstack.append(20)\nstack.append(30)\nprint(\"Stack after push:\", stack)  # [10, 20, 30]\n\n# Peek\nprint(\"Top element:\", stack[-1])  # 30\n\n# Pop operation\npopped = stack.pop()\nprint(\"Popped:\", popped)          # 30\nprint(\"Stack after pop:\", stack)   # [10, 20]\n\n# Check empty\nprint(\"Is empty:\", len(stack) == 0)  # False",
+        "explanation": "Python's list.append() adds to the end (top of stack) and list.pop() removes from the end, naturally implementing LIFO behaviour."
+      }
+    },
+    {
+      "id": "ds-queue",
+      "heading": "Queue",
+      "content": "A queue is a linear data structure that follows the FIFO (First In, First Out) principle. The element inserted first is removed first. Think of a queue at a ticket counter — first person to join is the first to be served.",
+      "keyPoints": [
+        "FIFO — First In, First Out",
+        "Enqueue: Insert element at the rear",
+        "Dequeue: Remove element from the front",
+        "Front: View the front element",
+        "isEmpty: Check if queue is empty",
+        "Python list implements queue using append() (enqueue) and pop(0) (dequeue)"
+      ],
+      "codeExample": {
+        "language": "python",
+        "code": "# Queue implementation using Python list\nqueue = []\n\n# Enqueue\nqueue.append('Alice')\nqueue.append('Bob')\nqueue.append('Charlie')\nprint(\"Queue:\", queue)  # ['Alice', 'Bob', 'Charlie']\n\n# Dequeue\nserved = queue.pop(0)\nprint(\"Served:\", served)      # Alice\nprint(\"Queue:\", queue)        # ['Bob', 'Charlie']\n\n# Front element\nprint(\"Front:\", queue[0])     # Bob\n\n# Using collections.deque for efficiency\nfrom collections import deque\nq = deque()\nq.append('X')\nq.append('Y')\nprint(q.popleft())            # X",
+        "explanation": "pop(0) on a list is O(n) as all elements shift. collections.deque is preferred for production as popleft() is O(1)."
+      }
+    },
+    {
+      "id": "ds-applications",
+      "heading": "Applications of Stack and Queue",
+      "content": "Stacks and queues are fundamental data structures used in many real-world applications and algorithms.",
+      "keyPoints": [
+        "Stack applications: Function call stack, undo/redo operations, expression evaluation, browser history",
+        "Queue applications: Print spooler, CPU scheduling, BFS traversal, message queues",
+        "Infix to postfix conversion uses a stack",
+        "Palindrome checking uses a stack"
+      ],
+      "codeExample": {
+        "language": "python",
+        "code": "# Palindrome check using stack\ndef is_palindrome(word):\n    stack = list(word)\n    reversed_word = ''\n    while stack:\n        reversed_word += stack.pop()\n    return word == reversed_word\n\nprint(is_palindrome('madam'))   # True\nprint(is_palindrome('hello'))   # False\n\n# Matching brackets using stack\ndef matching_brackets(expr):\n    stack = []\n    pairs = {')': '(', ']': '[', '}': '{'}\n    for ch in expr:\n        if ch in '([{':\n            stack.append(ch)\n        elif ch in ')]}':\n            if not stack or stack[-1] != pairs[ch]:\n                return False\n            stack.pop()\n    return len(stack) == 0\n\nprint(matching_brackets(\"(a+b)*[c-d]\"))  # True\nprint(matching_brackets(\"(a+b\"))          # False",
+        "explanation": "These are classic CBSE Board exam problems. Practice both palindrome and bracket-matching implementations."
+      }
+    },
+    {
+      "id": "ds-pyq",
+      "heading": "Previous Year Questions",
+      "content": "Stack and queue implementations are frequently tested in CBSE board exams. Key question types include: writing push/pop functions, tracing stack operations, and identifying LIFO vs FIFO behaviour.",
+      "keyPoints": [
+        "2023: Write a Python program to implement a stack for student records",
+        "2022: Explain PUSH and POP operations with example",
+        "2021: Write functions Push(stack) and Pop(stack) for integer stack",
+        "2020: Trace the output when elements 10, 20, 30 are pushed then two pops",
+        "Remember: stack uses list with .append() / .pop()",
+        "Remember: queue uses list with .append() / .pop(0)"
+      ]
+    }
+  ]
+}

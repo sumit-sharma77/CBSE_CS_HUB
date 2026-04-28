@@ -1,0 +1,32 @@
+[
+  {
+    "id": "py-str-001",
+    "topic": "strings",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "s = 'Hello World'\nprint(s.count('l'))\nprint(s.replace('World', 'Python'))\nprint(s[6:])",
+    "answer": "3\nHello Python\nWorld",
+    "explanation": "'Hello World' has 3 letter 'l's (He-l-lo, Wor-l-d). replace() substitutes the first arg with the second. s[6:] slices from index 6 to end."
+  },
+  {
+    "id": "py-str-002",
+    "topic": "strings",
+    "type": "coding",
+    "difficulty": "beginner",
+    "questionText": "Write a Python function to check if a given string is a palindrome (reads the same forwards and backwards).",
+    "answer": "Returns True if the string is a palindrome, False otherwise",
+    "explanation": "Compare the string with its reverse (s[::-1]). Case-insensitive comparison after converting to lowercase.",
+    "annotatedCode": "def is_palindrome(s):\n    s = s.lower().replace(' ', '')  # normalize: lowercase, remove spaces\n    return s == s[::-1]             # compare with reverse\n\nprint(is_palindrome('RACECAR'))  # True\nprint(is_palindrome('Hello'))    # False\nprint(is_palindrome('A man a plan a canal Panama'.replace(' ', '').lower()))  # True"
+  },
+  {
+    "id": "py-str-003",
+    "topic": "strings",
+    "type": "output-based",
+    "difficulty": "intermediate",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "words = 'the quick brown fox'\nresult = ' '.join(w.capitalize() for w in words.split())\nprint(result)",
+    "answer": "The Quick Brown Fox",
+    "explanation": "words.split() splits on whitespace → ['the', 'quick', 'brown', 'fox']. capitalize() makes first letter uppercase and rest lowercase. join() combines them back with spaces."
+  }
+]

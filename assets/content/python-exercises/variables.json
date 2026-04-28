@@ -1,0 +1,32 @@
+[
+  {
+    "id": "py-vars-001",
+    "topic": "variables",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "x = 10\ny = x\nx = 20\nprint(x, y)",
+    "answer": "20 10",
+    "explanation": "y = x copies the value of x (10) into y. Reassigning x to 20 does NOT change y. Integers in Python are immutable, so y still holds 10."
+  },
+  {
+    "id": "py-vars-002",
+    "topic": "variables",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output?",
+    "codeSnippet": "a = '5'\nb = 3\nprint(a * b)",
+    "answer": "555",
+    "explanation": "When a string is multiplied by an integer, Python repeats the string that many times. '5' * 3 = '555'. This is string repetition, not arithmetic."
+  },
+  {
+    "id": "py-vars-003",
+    "topic": "variables",
+    "type": "coding",
+    "difficulty": "beginner",
+    "questionText": "Write a Python program to swap values of two variables without using a third variable.",
+    "answer": "a, b = b, a",
+    "explanation": "Python evaluates the right side (b, a) first as a tuple, then unpacks it into (a, b). This atomic swap needs no temporary variable.",
+    "annotatedCode": "a = int(input('Enter a: '))\nb = int(input('Enter b: '))\nprint(f'Before: a={a}, b={b}')\na, b = b, a   # Python tuple unpacking swap — no temp variable needed\nprint(f'After:  a={a}, b={b}')"
+  }
+]

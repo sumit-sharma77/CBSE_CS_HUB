@@ -1,0 +1,53 @@
+[
+  {
+    "id": "sql-select-001",
+    "category": "select",
+    "questionText": "Write a SQL query to retrieve all columns and rows from a table named STUDENTS.",
+    "answer": "SELECT * FROM STUDENTS;",
+    "explanation": "The SELECT * statement fetches all columns. Using * is convenient but in production, explicitly naming columns is preferred for performance and clarity.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2024,
+    "marks": 2
+  },
+  {
+    "id": "sql-select-002",
+    "category": "select",
+    "questionText": "Write a SQL query to display only the NAME and MARKS columns from the STUDENTS table.",
+    "answer": "SELECT NAME, MARKS FROM STUDENTS;",
+    "explanation": "When you need specific columns, list them by name separated by commas. This is more efficient than SELECT * when the table has many columns.",
+    "difficulty": "easy",
+    "isPreviousYear": false
+  },
+  {
+    "id": "sql-select-003",
+    "category": "select",
+    "questionText": "Write a SQL query to display unique values from the CITY column of the CUSTOMERS table. The result should not contain duplicate city names.",
+    "answer": "SELECT DISTINCT CITY FROM CUSTOMERS;",
+    "explanation": "DISTINCT eliminates duplicate rows from the result set. It is applied to the combination of all selected columns.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2023,
+    "marks": 2
+  },
+  {
+    "id": "sql-select-004",
+    "category": "select",
+    "questionText": "Consider a table EMPLOYEE with columns EID, ENAME, SALARY, DEPT. Write a query to display ENAME and an alias 'Monthly Pay' for SALARY.",
+    "answer": "SELECT ENAME, SALARY AS 'Monthly Pay' FROM EMPLOYEE;",
+    "explanation": "The AS keyword renames a column in the output (alias). Aliases with spaces must be enclosed in single quotes in MySQL.",
+    "difficulty": "medium",
+    "isPreviousYear": false
+  },
+  {
+    "id": "sql-select-005",
+    "category": "select",
+    "questionText": "Write a SQL query to display the ENAME and annual salary (SALARY * 12) for all employees from the EMPLOYEE table.",
+    "answer": "SELECT ENAME, SALARY * 12 AS 'Annual Salary' FROM EMPLOYEE;",
+    "explanation": "SQL allows arithmetic expressions in SELECT. The result of SALARY * 12 is a derived column shown in the output.",
+    "difficulty": "medium",
+    "isPreviousYear": true,
+    "year": 2025,
+    "marks": 3
+  }
+]

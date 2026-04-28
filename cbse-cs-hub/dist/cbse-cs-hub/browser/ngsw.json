@@ -1,0 +1,191 @@
+{
+  "configVersion": 1,
+  "timestamp": 1777365931422,
+  "index": "/CBSE_CS_HUB/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/CBSE_CS_HUB/chunk-4NNLF5S4.js",
+        "/CBSE_CS_HUB/chunk-6IGUXNKG.js",
+        "/CBSE_CS_HUB/chunk-6TNNWWGU.js",
+        "/CBSE_CS_HUB/chunk-ALGN5X6I.js",
+        "/CBSE_CS_HUB/chunk-AZS3SKN2.js",
+        "/CBSE_CS_HUB/chunk-BMJRVYTQ.js",
+        "/CBSE_CS_HUB/chunk-CJ56D3RE.js",
+        "/CBSE_CS_HUB/chunk-CV5LMC7O.js",
+        "/CBSE_CS_HUB/chunk-DM6EOAUD.js",
+        "/CBSE_CS_HUB/chunk-DYBEGVJO.js",
+        "/CBSE_CS_HUB/chunk-EH7TM5VC.js",
+        "/CBSE_CS_HUB/chunk-EXMIYBEP.js",
+        "/CBSE_CS_HUB/chunk-FYZJ6YK3.js",
+        "/CBSE_CS_HUB/chunk-H5RCIPNZ.js",
+        "/CBSE_CS_HUB/chunk-IFH7D5JS.js",
+        "/CBSE_CS_HUB/chunk-IU43J6ZF.js",
+        "/CBSE_CS_HUB/chunk-KTMRL6KI.js",
+        "/CBSE_CS_HUB/chunk-L53M77K7.js",
+        "/CBSE_CS_HUB/chunk-LHAKNZJL.js",
+        "/CBSE_CS_HUB/chunk-OJU7JMKG.js",
+        "/CBSE_CS_HUB/chunk-TAFCAMDO.js",
+        "/CBSE_CS_HUB/chunk-TBLM7JY6.js",
+        "/CBSE_CS_HUB/chunk-VSZ7NICA.js",
+        "/CBSE_CS_HUB/chunk-YDNMSXJV.js",
+        "/CBSE_CS_HUB/chunk-Z2S2UPLA.js",
+        "/CBSE_CS_HUB/chunk-ZU6LRA44.js",
+        "/CBSE_CS_HUB/favicon.ico",
+        "/CBSE_CS_HUB/index.html",
+        "/CBSE_CS_HUB/main-T34LRJD7.js",
+        "/CBSE_CS_HUB/manifest.webmanifest",
+        "/CBSE_CS_HUB/styles-6OLWFMKK.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/CBSE_CS_HUB/assets/content/mcq/cl11-computer-fundamentals.json",
+        "/CBSE_CS_HUB/assets/content/mcq/cl11-python.json",
+        "/CBSE_CS_HUB/assets/content/mcq/cl12-networking.json",
+        "/CBSE_CS_HUB/assets/content/mcq/cl12-python.json",
+        "/CBSE_CS_HUB/assets/content/mcq/cl12-sql.json",
+        "/CBSE_CS_HUB/assets/content/mcq/mcq-index.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/conditions.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/dictionaries.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/functions.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/lists.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/loops.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/mixed.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/strings.json",
+        "/CBSE_CS_HUB/assets/content/python-exercises/variables.json",
+        "/CBSE_CS_HUB/assets/content/search-index.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/aggregate.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/group-by.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/joins.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/keys-constraints.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/order-by.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/select.json",
+        "/CBSE_CS_HUB/assets/content/sql-questions/where.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-11-index.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch01-computer-fundamentals.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch02-python-basics.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch03-data-handling.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12-index.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch01-python-revision.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch02-functions.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch03-file-handling.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch04-data-structures.json",
+        "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch05-mysql.json"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "content-json",
+      "patterns": [
+        "\\/assets\\/content\\/.*"
+      ],
+      "strategy": "performance",
+      "maxSize": 100,
+      "maxAge": 604800000,
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "version": 1
+    }
+  ],
+  "hashTable": {
+    "/CBSE_CS_HUB/assets/content/mcq/cl11-computer-fundamentals.json": "8c3658d4a94d43684b692ddf02848805ba150f55",
+    "/CBSE_CS_HUB/assets/content/mcq/cl11-python.json": "dfda1373d00f4eb27a10d61986e214756abc3658",
+    "/CBSE_CS_HUB/assets/content/mcq/cl12-networking.json": "e01b5d5990d9aaec95c8dd446a0c0a0afa933e35",
+    "/CBSE_CS_HUB/assets/content/mcq/cl12-python.json": "82b0ba929eab548c0d79f2adf5403b2c9b3b778f",
+    "/CBSE_CS_HUB/assets/content/mcq/cl12-sql.json": "a81df541c314ad9bb8833246e34a8970b70c5111",
+    "/CBSE_CS_HUB/assets/content/mcq/mcq-index.json": "c2793e087ef35382a8437649a8a0cc9eb18204c4",
+    "/CBSE_CS_HUB/assets/content/python-exercises/conditions.json": "34c747fbf534f8d060e902f6e126611f4e0f1f5c",
+    "/CBSE_CS_HUB/assets/content/python-exercises/dictionaries.json": "9104d294df8a1f7c187553da8e9809f5f153608b",
+    "/CBSE_CS_HUB/assets/content/python-exercises/functions.json": "74971a6754e8beef137cf482445693d62b452906",
+    "/CBSE_CS_HUB/assets/content/python-exercises/lists.json": "2f75d875737441bc0f20862c704ab4be3395d29d",
+    "/CBSE_CS_HUB/assets/content/python-exercises/loops.json": "414e9359ffa1304d1fc54c3fbace3360430a11d9",
+    "/CBSE_CS_HUB/assets/content/python-exercises/mixed.json": "c160e7c3a48abc72da6b7033f2c613b90fb57a19",
+    "/CBSE_CS_HUB/assets/content/python-exercises/strings.json": "b4ff5c0e0f3d097904d21c42dbcca272c83556ae",
+    "/CBSE_CS_HUB/assets/content/python-exercises/variables.json": "ff854d23f41d499ac7c577e3c67c0a512a963dc1",
+    "/CBSE_CS_HUB/assets/content/search-index.json": "9e6f3e2ae9af0ba65b392f75a42816cc065c1af2",
+    "/CBSE_CS_HUB/assets/content/sql-questions/aggregate.json": "d7af847c3b420590fbabc52012d8e723214cd04d",
+    "/CBSE_CS_HUB/assets/content/sql-questions/group-by.json": "38d395b8e7dc094565d07f5d9577d836ccff2fbf",
+    "/CBSE_CS_HUB/assets/content/sql-questions/joins.json": "816dd36f9b85198179be18e3b42bee7f36fc098b",
+    "/CBSE_CS_HUB/assets/content/sql-questions/keys-constraints.json": "a52653db327b14c1cc7f35dff3ae60cfe98181f8",
+    "/CBSE_CS_HUB/assets/content/sql-questions/order-by.json": "e9348531ac73ea9a503c14bdb1214015d2c0c0f7",
+    "/CBSE_CS_HUB/assets/content/sql-questions/select.json": "1162e2090690004d5c28798b66a7d721eb2a09c2",
+    "/CBSE_CS_HUB/assets/content/sql-questions/where.json": "3263499ca2a0f344e5fb96698e0f9da7fdfb58f0",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-11-index.json": "6bd6c50a673313b26940eca47b03961acf622f80",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch01-computer-fundamentals.json": "1cb70bbce4befbc49bf6e444281dd4818bff0d43",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch02-python-basics.json": "0c7071c39802b2b704e9858053f9b7d749d0c4bb",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-11/cl11-ch03-data-handling.json": "f25729160f84577d259852e4901d2d0f8630dec0",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12-index.json": "1d0b93af05125e8905a63772fe6eef79382db101",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch01-python-revision.json": "c0acee180208a0b2a303b57aed4dcb7deb05d57e",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch02-functions.json": "bc9c6992ff184afd0768c0acc2949f77fc6bcd20",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch03-file-handling.json": "aa2afd03d1977bec72b23f6b1484fcdd3aa9d7fc",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch04-data-structures.json": "241996ff38ac0ed4f26198e9325251ab12956020",
+    "/CBSE_CS_HUB/assets/content/study-notes/class-12/cl12-ch05-mysql.json": "547409d2def9a4d80e2a905d77d820ff675a576f",
+    "/CBSE_CS_HUB/chunk-4NNLF5S4.js": "38403466acd59a1f3bb3d7b6717dac6827bb8afc",
+    "/CBSE_CS_HUB/chunk-6IGUXNKG.js": "deb1c89a8a10708be6118fdd9066a33bfeff44df",
+    "/CBSE_CS_HUB/chunk-6TNNWWGU.js": "bffe2b2195f183c66ea66693de0db0c3eef1781a",
+    "/CBSE_CS_HUB/chunk-ALGN5X6I.js": "f0fd696f0b2d956d6bbe6eada6b58a493060de4e",
+    "/CBSE_CS_HUB/chunk-AZS3SKN2.js": "b0de543ecbc7a8d2fcc6c00a4323fb7c49c610ad",
+    "/CBSE_CS_HUB/chunk-BMJRVYTQ.js": "7b625b2d600d8b840d35eac20b6e9c39efb0ab20",
+    "/CBSE_CS_HUB/chunk-CJ56D3RE.js": "ea9b09024e786029d79326580491ebe7b06deeb2",
+    "/CBSE_CS_HUB/chunk-CV5LMC7O.js": "544d462d532a78cb1d359a6086df0df8e3ac9d58",
+    "/CBSE_CS_HUB/chunk-DM6EOAUD.js": "0cf4c0d653e74af22ea76102144d0045611feba9",
+    "/CBSE_CS_HUB/chunk-DYBEGVJO.js": "6e94056de5bcf4d3ce9dd04ee94da9c0b4d7c19e",
+    "/CBSE_CS_HUB/chunk-EH7TM5VC.js": "1611b71498cdb87af8d18bf11ed0286eb5e46757",
+    "/CBSE_CS_HUB/chunk-EXMIYBEP.js": "c32145e312ce24a45ba3c511bb50f07a54ad9005",
+    "/CBSE_CS_HUB/chunk-FYZJ6YK3.js": "da9d9b285d95fd5bdff41b03a2d6362c9f9e626b",
+    "/CBSE_CS_HUB/chunk-H5RCIPNZ.js": "173c5de27e511397040eecdb0b4468fb067f7718",
+    "/CBSE_CS_HUB/chunk-IFH7D5JS.js": "13d35b21ed419fa1455e7ea7fef676a8a0c9dadd",
+    "/CBSE_CS_HUB/chunk-IU43J6ZF.js": "1f143c00f1c45dc66581e98378aadf92b3cbdbde",
+    "/CBSE_CS_HUB/chunk-KTMRL6KI.js": "70ca8ab769edb1aafab322ad097ae06a006b602e",
+    "/CBSE_CS_HUB/chunk-L53M77K7.js": "a92ee82206937e19d187b8faf00cedeabbf2e427",
+    "/CBSE_CS_HUB/chunk-LHAKNZJL.js": "227d430fd129880e11edaf74bbe185a893d1e25b",
+    "/CBSE_CS_HUB/chunk-OJU7JMKG.js": "64f0ff9940d6906ad025b1c4af126259201ab681",
+    "/CBSE_CS_HUB/chunk-TAFCAMDO.js": "c5395fe48c92944ada132b8f477b730e3d49207f",
+    "/CBSE_CS_HUB/chunk-TBLM7JY6.js": "cf6eed511ee7e6d00ad8aa3450be014883e91ce1",
+    "/CBSE_CS_HUB/chunk-VSZ7NICA.js": "6811ca6ee12f3373e9eaa6af07938bf1be92ca65",
+    "/CBSE_CS_HUB/chunk-YDNMSXJV.js": "30f4a2c05945fb80448ba15dd8c085b07d3aae1b",
+    "/CBSE_CS_HUB/chunk-Z2S2UPLA.js": "b7f4437a2ba68d273758e25dd20b1366cfcd07fc",
+    "/CBSE_CS_HUB/chunk-ZU6LRA44.js": "05c15eef549c08106e7555aac79419f72e21ad5c",
+    "/CBSE_CS_HUB/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/CBSE_CS_HUB/index.html": "1e9258361cbb14c941ddf79d148e35634f2205be",
+    "/CBSE_CS_HUB/main-T34LRJD7.js": "4cb297218f47da194d549d2e13a9adb29ef11f4b",
+    "/CBSE_CS_HUB/manifest.webmanifest": "0499ccefc01be7777b88e4a45ab77938bc68bc89",
+    "/CBSE_CS_HUB/styles-6OLWFMKK.css": "16f2c05fa8b4cf736ce81d16ea1c81346ebabe44"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

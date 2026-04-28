@@ -1,0 +1,58 @@
+{
+  "id": "cl12-ch01-python-revision",
+  "classLevel": 12,
+  "title": "Python Revision Tour",
+  "subject": "Computer Science",
+  "chapterNumber": 1,
+  "tags": ["python", "data types", "variables", "operators"],
+  "sections": [
+    {
+      "heading": "Introduction",
+      "content": "Python is a high-level, interpreted, general-purpose programming language. In Class 12, we revise Key concepts  learned in Class 11 and explore advanced features.\n\nPython programs are saved with the .py extension and executed by the Python interpreter line by line."
+    },
+    {
+      "heading": "Data Types",
+      "content": "Python has several built-in data types:\n\n• int — whole numbers like 42, -7\n• float — decimal numbers like 3.14, -0.5\n• str — text like 'Hello', \"World\"\n• bool — True or False\n• list — ordered mutable sequence [1, 2, 3]\n• tuple — ordered immutable sequence (1, 2, 3)\n• dict — key-value pairs {'name': 'Asha', 'age': 17}\n• set — unordered unique items {1, 2, 3}",
+      "codeBlocks": [
+        {
+          "language": "python",
+          "code": "x = 42          # int\ny = 3.14        # float\nname = 'Sumit'  # str\nflag = True     # bool\n\nprint(type(x))  # <class 'int'>\nprint(type(y))  # <class 'float'>",
+          "explanation": "Use type() to check the data type of any variable."
+        }
+      ]
+    },
+    {
+      "heading": "Operators",
+      "content": "Python supports the following categories of operators:\n\n• Arithmetic: +, -, *, /, //, %, **\n• Comparison: ==, !=, <, >, <=, >=\n• Logical: and, or, not\n• Assignment: =, +=, -=, *=, /=\n• Membership: in, not in\n• Identity: is, is not",
+      "codeBlocks": [
+        {
+          "language": "python",
+          "code": "# Arithmetic\nprint(10 // 3)   # 3 (floor division)\nprint(10 % 3)    # 1 (modulus)\nprint(2 ** 8)    # 256 (exponentiation)\n\n# Membership\nfruits = ['apple', 'mango', 'banana']\nprint('mango' in fruits)     # True\nprint('orange' not in fruits)  # True",
+          "explanation": "Floor division (//) discards the decimal part. Modulus (%) returns the remainder."
+        }
+      ]
+    },
+    {
+      "heading": "Strings",
+      "content": "Strings in Python are immutable sequences of characters. Common string methods include:\n\n• upper(), lower(), title()\n• strip(), lstrip(), rstrip()\n• split(), join()\n• replace(), find(), count()\n• startswith(), endswith()\n• len() — returns the length",
+      "codeBlocks": [
+        {
+          "language": "python",
+          "code": "s = '  Hello World  '\nprint(s.strip())          # 'Hello World'\nprint(s.strip().lower())  # 'hello world'\n\nwords = 'one,two,three'.split(',')\nprint(words)  # ['one', 'two', 'three']\nprint('-'.join(words))  # 'one-two-three'",
+          "explanation": "strip() removes leading and trailing whitespace. split() splits a string into a list."
+        }
+      ]
+    },
+    {
+      "heading": "Lists vs Tuples",
+      "content": "Lists and Tuples are both sequences, but Lists are mutable (can be changed) while Tuples are immutable (cannot be changed after creation).\n\nUse tuples when data should not change (e.g., coordinates, RGB values).\nUse lists when you need to add, remove, or modify elements.",
+      "codeBlocks": [
+        {
+          "language": "python",
+          "code": "# List - mutable\nmarks = [85, 90, 78]\nmarks.append(95)\nmarks[0] = 88\nprint(marks)  # [88, 90, 78, 95]\n\n# Tuple - immutable\ncoords = (28.6, 77.2)  # latitude, longitude\n# coords[0] = 30  # TypeError: 'tuple' object does not support item assignment",
+          "explanation": "Attempting to modify a tuple raises a TypeError. This immutability makes tuples faster and safer for fixed data."
+        }
+      ]
+    }
+  ]
+}
