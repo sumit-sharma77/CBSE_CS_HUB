@@ -1,0 +1,32 @@
+[
+  {
+    "id": "py-lists-001",
+    "topic": "lists",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "lst = [10, 20, 30, 40, 50]\nprint(lst[1:4])\nprint(lst[::-1])",
+    "answer": "[20, 30, 40]\n[50, 40, 30, 20, 10]",
+    "explanation": "lst[1:4] slices from index 1 up to (not including) index 4 → [20, 30, 40]. lst[::-1] reverses the list using step -1."
+  },
+  {
+    "id": "py-lists-002",
+    "topic": "lists",
+    "type": "output-based",
+    "difficulty": "intermediate",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "a = [1, 2, 3]\nb = a\nb.append(4)\nprint(a)\nprint(b)",
+    "answer": "[1, 2, 3, 4]\n[1, 2, 3, 4]",
+    "explanation": "b = a does NOT copy the list. Both a and b point to the same list object in memory. So appending to b also changes a. Use b = a.copy() or b = a[:] for an independent copy."
+  },
+  {
+    "id": "py-lists-003",
+    "topic": "lists",
+    "type": "coding",
+    "difficulty": "beginner",
+    "questionText": "Write a Python program to find the second largest element in a list without using sort().",
+    "answer": "The second largest element in the list",
+    "explanation": "Iterate through the list maintaining max1 (largest) and max2 (second largest). Update accordingly.",
+    "annotatedCode": "def second_largest(lst):\n    max1 = max2 = float('-inf')  # start with negative infinity\n    for num in lst:\n        if num > max1:           # found new maximum\n            max2 = max1          # old max becomes second\n            max1 = num\n        elif num > max2 and num != max1:  # new second max\n            max2 = num\n    return max2\n\nnumbers = [3, 7, 1, 9, 5, 9]\nprint(second_largest(numbers))  # 7"
+  }
+]

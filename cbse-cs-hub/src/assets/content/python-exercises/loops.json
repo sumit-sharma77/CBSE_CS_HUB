@@ -1,0 +1,52 @@
+[
+  {
+    "id": "py-loops-001",
+    "topic": "loops",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "for i in range(1, 6):\n    if i % 2 == 0:\n        print(i, end=' ')",
+    "answer": "2 4",
+    "explanation": "range(1, 6) generates 1, 2, 3, 4, 5. The condition i % 2 == 0 is true for even numbers 2 and 4. end=' ' prints them on the same line separated by spaces."
+  },
+  {
+    "id": "py-loops-002",
+    "topic": "loops",
+    "type": "output-based",
+    "difficulty": "beginner",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "count = 0\nwhile count < 5:\n    count += 2\nprint(count)",
+    "answer": "6",
+    "explanation": "Starting at 0: count becomes 2, then 4, then 6. When count = 6, condition 6 < 5 is False so loop stops. Final value is 6."
+  },
+  {
+    "id": "py-loops-003",
+    "topic": "loops",
+    "type": "coding",
+    "difficulty": "beginner",
+    "questionText": "Write a Python program to print the multiplication table of a given number n.",
+    "answer": "n × 1 through n × 10 printed on separate lines",
+    "explanation": "Use a for loop with range(1, 11) to iterate from 1 to 10, printing n * i at each step.",
+    "annotatedCode": "n = int(input('Enter number: '))\nfor i in range(1, 11):   # i goes from 1 to 10\n    print(f'{n} x {i} = {n * i}')  # formatted output"
+  },
+  {
+    "id": "py-loops-004",
+    "topic": "loops",
+    "type": "output-based",
+    "difficulty": "intermediate",
+    "questionText": "What is the output of the following code?",
+    "codeSnippet": "for i in range(3):\n    for j in range(3):\n        if i == j:\n            print(i, j)\n        else:\n            continue",
+    "answer": "0 0\n1 1\n2 2",
+    "explanation": "The inner loop runs 3 times for each outer iteration. Only when i == j (diagonal) does it print. Continue has no effect here as it's at the end of the loop body."
+  },
+  {
+    "id": "py-loops-005",
+    "topic": "loops",
+    "type": "coding",
+    "difficulty": "intermediate",
+    "questionText": "Write a Python program to find the sum of all even numbers from 1 to 100 using a while loop.",
+    "answer": "2550",
+    "explanation": "Even numbers from 2 to 100 follow the pattern 2 + 4 + 6 + ... + 100. Using while loop: start n=2, add to sum, n+=2, repeat while n<=100.",
+    "annotatedCode": "total = 0\nn = 2             # start from first even number\nwhile n <= 100:   # loop until 100\n    total += n    # add current even number to sum\n    n += 2        # move to next even number\nprint(total)      # 2550"
+  }
+]
