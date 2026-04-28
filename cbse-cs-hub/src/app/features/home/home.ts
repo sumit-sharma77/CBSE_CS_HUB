@@ -83,9 +83,11 @@ export class Home {
 
   protected moduleCards: ModuleCard[] = [
     { label: 'Study Notes', route: '/study-notes', icon: '📖', description: 'Class 11 & 12 chapters' },
+    { label: 'MCQ Quiz', route: '/mcq', icon: '🧠', description: 'CBSE PYQ MCQs · Class 11 & 12' },
     { label: 'SQL Practice', route: '/sql', icon: '🗄️', description: '7 categories + PYQ' },
     { label: 'Python Practice', route: '/python', icon: '🐍', description: '8 topics + exercises' },
     { label: 'My Notes', route: '/notes', icon: '📝', description: 'Personal study notes' },
+    { label: 'Progress', route: '/progress', icon: '📊', description: 'Track your performance' },
   ];
 
   protected sqlAttempted() {
@@ -99,7 +101,7 @@ export class Home {
   }
 
   protected moduleIcon(type: string): string {
-    const icons: Record<string, string> = { chapter: '📖', 'sql-question': '🗄️', 'python-exercise': '🐍' };
+    const icons: Record<string, string> = { chapter: '📖', 'sql-question': '🗄️', 'python-exercise': '🐍', mcq: '🧠' };
     return icons[type] ?? '📄';
   }
 }

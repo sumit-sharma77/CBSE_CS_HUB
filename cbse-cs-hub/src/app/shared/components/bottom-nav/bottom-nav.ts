@@ -31,11 +31,11 @@ interface NavItem {
 })
 export class BottomNav {
   protected navItems: NavItem[] = [
-    { label: 'Study Notes', route: '/study-notes', icon: '📖' },
-    { label: 'My Notes', route: '/notes', icon: '📝' },
+    { label: 'Study', route: '/study-notes', icon: '📖' },
+    { label: 'MCQ', route: '/mcq', icon: '🧠' },
     { label: 'SQL', route: '/sql', icon: '🗄️' },
     { label: 'Python', route: '/python', icon: '🐍' },
     { label: 'Progress', route: '/progress', icon: '📊' },
-    { label: 'Search', route: '/search', icon: '🔍' },
+    { label: 'Notes', route: '/notes', icon: '📝' },
   ];
 }

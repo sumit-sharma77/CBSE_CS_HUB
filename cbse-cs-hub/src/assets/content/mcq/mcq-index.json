@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cl12-python",
+    "classLevel": 12,
+    "topic": "Python Programming",
+    "description": "Functions, files, data structures & OOP",
+    "icon": "🐍",
+    "totalQuestions": 15,
+    "tags": ["python", "class 12", "functions", "file handling", "data structures"]
+  },
+  {
+    "id": "cl12-sql",
+    "classLevel": 12,
+    "topic": "Database & SQL",
+    "description": "SELECT, JOINs, keys, constraints & DDL/DML",
+    "icon": "🗄️",
+    "totalQuestions": 12,
+    "tags": ["SQL", "database", "class 12", "MySQL", "DDL", "DML"]
+  },
+  {
+    "id": "cl12-networking",
+    "classLevel": 12,
+    "topic": "Networking & Internet",
+    "description": "Protocols, topologies, security & cloud",
+    "icon": "🌐",
+    "totalQuestions": 10,
+    "tags": ["networking", "internet", "class 12", "protocols", "topology"]
+  },
+  {
+    "id": "cl11-python",
+    "classLevel": 11,
+    "topic": "Python Basics",
+    "description": "Variables, loops, functions & data types",
+    "icon": "🐍",
+    "totalQuestions": 12,
+    "tags": ["python", "class 11", "basics", "loops", "functions"]
+  },
+  {
+    "id": "cl11-computer-fundamentals",
+    "classLevel": 11,
+    "topic": "Computer Fundamentals",
+    "description": "Hardware, software, memory & number systems",
+    "icon": "💻",
+    "totalQuestions": 12,
+    "tags": ["computer fundamentals", "class 11", "hardware", "number system", "memory"]
+  }
+]

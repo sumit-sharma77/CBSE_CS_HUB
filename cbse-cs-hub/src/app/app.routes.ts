@@ -34,6 +34,14 @@ export const routes: Routes = [
     loadComponent: () => import('./features/python-practice/exercise-list/exercise-list').then(m => m.PythonExerciseList),
   },
   {
+    path: 'mcq',
+    loadComponent: () => import('./features/mcq/category-list/category-list').then(m => m.McqCategoryList),
+  },
+  {
+    path: 'mcq/:setId',
+    loadComponent: () => import('./features/mcq/quiz/quiz').then(m => m.McqQuiz),
+  },
+  {
     path: 'bookmarks',
     loadComponent: () => import('./features/bookmarks/bookmarks').then(m => m.Bookmarks),
   },

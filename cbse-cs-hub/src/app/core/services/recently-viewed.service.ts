@@ -2,7 +2,7 @@ import { Injectable, effect, inject, signal } from '@angular/core';
 import { StorageService } from './storage.service';
 
 export interface RecentlyViewedEntry {
-  type: 'chapter' | 'sql-question' | 'python-exercise';
+  type: 'chapter' | 'sql-question' | 'python-exercise' | 'mcq';
   itemId: string;
   title: string;
   visitedAt: string;

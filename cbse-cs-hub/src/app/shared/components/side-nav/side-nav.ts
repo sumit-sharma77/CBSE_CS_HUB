@@ -32,9 +32,10 @@ interface NavItem {
 export class SideNav {
   protected navItems: NavItem[] = [
     { label: 'Study Notes', route: '/study-notes', icon: '📖' },
-    { label: 'My Notes', route: '/notes', icon: '📝' },
+    { label: 'MCQ Quiz', route: '/mcq', icon: '🧠' },
     { label: 'SQL Practice', route: '/sql', icon: '🗄️' },
     { label: 'Python Practice', route: '/python', icon: '🐍' },
+    { label: 'My Notes', route: '/notes', icon: '📝' },
     { label: 'Progress', route: '/progress', icon: '📊' },
     { label: 'Search', route: '/search', icon: '🔍' },
   ];
