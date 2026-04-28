@@ -74,6 +74,17 @@
         },
         "test": {
           "builder": "@angular/build:unit-test"
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "dir": "dist/cbse-cs-hub/browser",
+            "baseHref": "/CBSE_CS_HUB/",
+            "repo": "https://github.com/sumit-sharma77/CBSE_CS_HUB.git",
+            "branch": "gh-pages",
+            "message": "Deploy to GitHub Pages [ci skip]",
+            "noSilent": true
+          }
         }
       }
     }

@@ -8,6 +8,20 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="manifest" href="manifest.webmanifest">
   <script>
+    // GitHub Pages SPA: restore the path encoded by 404.html
+    (function(l) {
+      if (l.search[1] === 'p' && l.search.indexOf('?p=/') === 0) {
+        var parts = l.search.slice(1).split('&');
+        var path = parts[0].slice(2).replace(/~and~/g, '&');
+        var query = parts[1] ? parts[1].slice(2).replace(/~and~/g, '&') : '';
+        window.history.replaceState(null, null,
+          l.pathname + '/' + path + (query ? '?' + query : '') + l.hash
+        );
+      }
+    }(window.location));
+  </script>
+  <script>
+    // Flash prevention: apply saved theme before Angular boots
     (function() {
       try {
         var theme = localStorage.getItem('cbse-theme');
