@@ -2,16 +2,16 @@
 
 **Feature Branch**: `002-admin-editor`  
 **Created**: 2026-04-29  
-**Status**: Draft  
+**Status**: Implemented (2026-04-29)  
 **Author**: Sumit Vats  
 
 ---
 
 ## Overview
 
-A hidden `/admin` route available **exclusively in development mode** (Angular `isDevMode()` enforced by a `CanActivate` route guard). When accessed in a production build the route renders a 403 Forbidden page and no admin UI code is evaluated. The admin page provides a visual form-driven interface that lets the content author add new questions to the existing static JSON asset files without manually editing raw JSON.
+A hidden `/admin` route available **exclusively in development mode** (Angular `isDevMode()` enforced by a `CanActivate` route guard). When accessed in a production build the route renders a 403 Forbidden page and no admin UI code is evaluated. The admin page provides a visual form-driven interface that lets the content author add, edit, and delete questions in the existing static JSON asset files **directly** — changes are written to disk immediately via a local `content-server.js` (Node.js) that the Angular dev-server proxies. No manual JSON copy/paste is required.
 
-The tool is entirely static — it reads existing content via `fetch` from the same asset files the student-facing app uses, generates a correctly-shaped JSON snippet, and lets the author copy or download that snippet for manual insertion and deployment.
+The tool runs entirely locally on the developer's machine — a small Node.js write server (port 3001) handles file I/O; the Angular dev server (port 4200) proxies `/api/content/*` to it. Neither the write server nor any admin code reaches the production bundle or the GitHub Pages deployment.
 
 ---
 
@@ -36,53 +36,52 @@ The content author (or any visitor) navigates to `/admin` on the live GitHub Pag
 
 ### User Story 2 — Add a New MCQ Question via Form (Priority: P2)
 
-The content author opens the admin panel in development mode, selects the **MCQ** tab, chooses the target category file (e.g., `cl12-python.json`), fills in the question text, four answer options, correct answer index, explanation, and optional year/isPreviousYear fields. Satisfied, they click **Generate JSON**, then **Copy** to copy the snippet, and paste it into the correct asset file.
+The content author opens the admin panel in development mode, selects the **MCQ** tab, chooses the target category file (e.g., `cl12-python.json`), fills in the question text, four answer options, correct answer index, explanation, and optional year/isPreviousYear fields. Satisfied, they click **Add Question** — the question is written directly to the JSON file and immediately appears in the list view.
 
-**Why this priority**: MCQ is the highest-volume content type. The manual form is the primary workflow for the majority of content additions and delivers immediate standalone value.
+**Why this priority**: MCQ is the highest-volume content type. The direct-save form is the primary workflow for the majority of content additions and delivers immediate standalone value.
 
-**Independent Test**: Open admin in dev mode, add one MCQ question end-to-end (fill form → generate JSON → copy), paste the JSON into a `mcq/*.json` file, run the app, and confirm the new question appears in the student-facing quiz.
+**Independent Test**: Open admin in dev mode, add one MCQ question end-to-end (fill form → Add Question), then open the student-facing quiz and confirm the new question appears.
 
 **Acceptance Scenarios**:
 
-1. **Given** the author is on the MCQ tab, **When** they select a target file from a dropdown (listing all `mcq/*.json` files), **Then** the form is scoped to that file and the question ID is auto-generated in the correct format (e.g., `cl12-py-016`).
-2. **Given** the author fills in the question text, four options, correct answer index, and explanation, **When** they click **Generate JSON**, **Then** a valid JSON object is shown in the output panel below the form.
-3. **Given** all required fields are filled, **When** the author clicks **Copy JSON**, **Then** a valid, schema-conformant JSON object is copied to the clipboard matching the MCQ schema: `{ id, question, options[], correctIndex, explanation, year?, isPreviousYear }`.
-4. **Given** the author clicks **Download JSON Snippet**, **Then** a `.json` file is downloaded containing only the single new question object (not the entire array).
-5. **Given** a required field (question text, any option, correct index, explanation) is left empty, **When** the author clicks **Copy JSON** or **Download**, **Then** a validation error is shown inline and no output is generated.
-6. **Given** `isPreviousYear` is toggled on, **When** the author does not enter a year value, **Then** the form shows a validation error for the year field before allowing output.
+1. **Given** the author is on the MCQ tab, **When** they select a target file from a dropdown (listing all `mcq/*.json` files), **Then** the list view loads all existing questions for that file.
+2. **Given** the author fills in the question text, four options, correct answer index, and explanation, **When** they click **Add Question**, **Then** the question is written to the JSON file and the list view updates immediately without a page reload.
+3. **Given** all required fields are filled, **When** the question is saved, **Then** a valid, schema-conformant question object exists in the asset file matching the MCQ schema: `{ id, question, options[], correctIndex, explanation, isPreviousYear, year? }`.
+4. **Given** a required field (question text, any option, correct index, explanation) is left empty, **When** the author clicks **Add Question**, **Then** a validation error is shown inline and no save is performed.
+5. **Given** `isPreviousYear` is toggled on, **When** the author does not enter a year value, **Then** the form shows a validation error for the year field before allowing save.
 
 ---
 
 ### User Story 3 — Add a New SQL Practice Question via Form (Priority: P3)
 
-The content author switches to the **SQL** tab, selects the target file (e.g., `sql/joins.json`), fills in the question text, SQL answer, explanation, and difficulty. They click **Generate JSON** and copy the snippet.
+The content author switches to the **SQL** tab, selects the target file (e.g., `sql-questions/joins.json`), fills in the question text, SQL answer, explanation, and difficulty. They click **Add Question** and the question is written directly to the file.
 
 **Why this priority**: SQL is the most exam-critical content in the CBSE CS curriculum. Adding SQL questions correctly (matching exact schema) is a high-frequency authoring task.
 
-**Independent Test**: Add one SQL question through the form, paste the generated JSON into `src/assets/content/sql/joins.json`, open SQL Practice in the student app, navigate to Joins, and confirm the new question appears with correct formatting.
+**Independent Test**: Add one SQL question through the form, navigate to SQL Practice in the student app, and confirm the new question appears with correct formatting.
 
 **Acceptance Scenarios**:
 
 1. **Given** the author selects the SQL tab and a target file, **When** they fill in question text, SQL answer, explanation, and difficulty (`easy`/`medium`/`hard`), **Then** the form validates that all required fields are present.
-2. **Given** the author fills all required SQL fields, **When** they click **Generate JSON**, **Then** a valid JSON object is shown in the output panel.
-3. **Given** the author clicks **Copy JSON**, **Then** the copied object conforms to the SQL schema: `{ id, question, answer, explanation, difficulty, isPreviousYear, year? }`.
-4. **Given** the author enters a multi-line SQL answer (e.g., a JOIN query across multiple lines), **When** JSON is generated, **Then** the multi-line answer is correctly escaped and preserved in the output.
+2. **Given** the author fills all required SQL fields, **When** they click **Add Question**, **Then** the question is written to `src/assets/content/sql-questions/{file}.json` and appears immediately in the list view.
+3. **Given** the question is saved, **Then** the stored object conforms to the SQL schema: `{ id, category, questionText, answer, explanation, difficulty, isPreviousYear, year?, marks? }`.
+4. **Given** the author enters a multi-line SQL answer (e.g., a JOIN query across multiple lines), **When** the question is saved, **Then** the multi-line answer is correctly escaped and preserved in the JSON file.
 
 ---
 
 ### User Story 4 — Add a New Python Exercise via Form (Priority: P4)
 
-The content author switches to the **Python** tab, selects the target topic file (e.g., `python/loops.json`), selects exercise type (`output-based`, `fill-blank`, `mcq`, `short-answer`), fills in question text, optional code snippet (required for output-based), answer, and explanation. They click **Generate JSON** and copy the snippet.
+The content author switches to the **Python** tab, selects the target topic file (e.g., `python-exercises/loops.json`), selects exercise type (`output-based`, `fill-blank`, `mcq`, `short-answer`), fills in optional question text, optional code snippet (required for output-based), optional answer, and explanation. They click **Add Question** and the exercise is written directly to the file.
 
 **Why this priority**: Python exercises are the second most frequent content type. Forms for all three content types together constitute the core authoring workflow.
 
-**Independent Test**: Add one Python exercise, paste the JSON into `src/assets/content/python/loops.json`, open Python Practice in the student app, navigate to Loops, and confirm the new exercise appears correctly.
+**Independent Test**: Add one Python exercise, open Python Practice in the student app, navigate to Loops, and confirm the new exercise appears correctly.
 
 **Acceptance Scenarios**:
 
 1. **Given** the author selects `output-based` as exercise type, **When** they view the form, **Then** the `codeSnippet` field is shown as required and rendered with a monospace/code input area.
 2. **Given** the author selects `fill-blank`, `mcq`, or `short-answer` as exercise type, **When** they fill in the answer and explanation, **Then** the `codeSnippet` field is hidden.
-3. **Given** all required Python fields are filled, **When** the author clicks **Copy JSON**, **Then** the copied object conforms to the Python schema: `{ id, type, difficulty, question, codeSnippet?, answer, explanation, isPreviousYear, year? }`.
+3. **Given** all required Python fields are filled, **When** the question is saved, **Then** the stored object conforms to the Python schema: `{ id, topic, type, difficulty, questionText?, codeSnippet?, answer?, explanation, isPreviousYear?, year? }`.
 
 ---
 
@@ -196,9 +195,9 @@ The content author wants to check whether a particular SQL question about GROUP 
 
 ### Key Entities
 
-- **MCQ Question**: A question belonging to a category file; fields: `id` (string), `question` (string), `options` (string[4]), `correctIndex` (0–3), `explanation` (string), `year` (integer, optional), `isPreviousYear` (boolean).
-- **SQL Question**: A practice question in a category file; fields: `id` (string), `question` (string), `answer` (string), `explanation` (string), `difficulty` (`easy`|`medium`|`hard`), `isPreviousYear` (boolean), `year` (integer, optional).
-- **Python Exercise**: An exercise in a topic file; fields: `id` (string), `type` (`output-based`|`fill-blank`|`mcq`|`short-answer`), `difficulty` (`beginner`|`intermediate`), `question` (string), `codeSnippet` (string, optional — required for output-based), `answer` (string), `explanation` (string), `isPreviousYear` (boolean), `year` (integer, optional).
+- **MCQ Question**: A question in a category file; fields: `id` (string), `question` (string), `options` (string[4]), `correctIndex` (0–3), `explanation` (string), `year` (integer, optional), `isPreviousYear` (boolean). MCQ files use a **wrapper object** format: `{ id, classLevel, topic, description, questions: [...] }`.
+- **SQL Question**: A practice question in a category file; fields: `id` (string), `category` (string), `questionText` (string), `answer` (string), `explanation` (string), `difficulty` (`easy`|`medium`|`hard`), `isPreviousYear` (boolean), `year` (integer, optional), `marks` (integer, optional). SQL files are **plain arrays** `[ ]`.
+- **Python Exercise**: An exercise in a topic file; fields: `id` (string), `topic` (string), `type` (`output-based`|`fill-blank`|`mcq`|`short-answer`), `difficulty` (`beginner`|`intermediate`), `questionText` (string, optional), `codeSnippet` (string, optional — required for output-based), `answer` (string, optional), `explanation` (string), `isPreviousYear` (boolean, optional), `year` (integer, optional). Python files are **plain arrays** `[ ]`.
 - **OCR Result**: Transient in-memory data produced by Tesseract.js; fields: raw extracted text (string), confidence score (number 0–100), bounding-box data (discarded after extraction).
 
 ---
@@ -223,7 +222,7 @@ The content author wants to check whether a particular SQL question about GROUP 
 - **NFR-001 — Bundle Isolation**: Admin components MUST be in a lazy-loaded Angular route chunk. The main production bundle size MUST be unaffected (delta ≤ 0 bytes in production build).
 - **NFR-002 — No New Runtime Dependencies in Production**: Tesseract.js MUST NOT be listed as a production dependency that affects the student-facing app. It is loaded on-demand in development only.
 - **NFR-003 — Browser Compatibility**: The admin panel MUST function on the latest version of Chrome and Firefox on desktop (macOS/Windows/Linux). Mobile browser support is not required.
-- **NFR-004 — No Backend**: All operations (OCR, content reading, JSON generation) MUST occur entirely in the browser. No server calls are permitted beyond `fetch` to the local dev server's asset files.
+- **NFR-004 — Local Write Server**: All file I/O is handled by `content-server.js`, a plain Node.js HTTP server (no frameworks) running on `127.0.0.1:3001`. The Angular dev server proxies `/api/content/*` to it via `proxy.conf.json`. The write server is **never deployed** — it exists only for local development. The production build has no knowledge of it.
 - **NFR-005 — Accessibility**: Interactive controls (form fields, buttons, tabs) MUST have accessible labels sufficient for keyboard-only navigation. Screen reader support is desirable but not required for a dev-only tool.
 - **NFR-006 — Codebase Consistency**: Admin components MUST follow the same Angular 21 standalone component patterns (signals, reactive forms, no NgModules) used throughout the existing codebase.
 
@@ -254,7 +253,7 @@ The content author wants to check whether a particular SQL question about GROUP 
 
 ## Future Scope
 
-- **FS-001 — Direct File Write via Node.js Proxy**: A local-only Node.js proxy (e.g., a small Express server) that writes the generated JSON directly into the asset file, eliminating the manual paste step entirely.
+- **FS-001 — Direct File Write via Local Write Server**: ~~Future scope~~ **Implemented in v1.** A plain Node.js HTTP server (`content-server.js`, port 3001) handles `GET` (read questions array) and `PUT` (write updated array) for all content files. The Angular dev server proxies `/api/content/*` to it. `AdminContentLoaderService` uses `save<T>(assetPath, items[])` to write and update the in-memory signal cache simultaneously.
 - **FS-006 — Live Preview Panel**: Render the new question inside the actual shared MCQ/SQL/Python student-facing card component in a side panel, so authors can verify layout before copying JSON.
 - **FS-002 — Batch OCR**: Process multiple question screenshots in a single session, queuing them for review before generating a batch of JSON snippets.
 - **FS-003 — Duplicate Detection**: Automatically compare the new question's text against all existing questions (using fuzzy string matching) and warn if a near-duplicate is detected.

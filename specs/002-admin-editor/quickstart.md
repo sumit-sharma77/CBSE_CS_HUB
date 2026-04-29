@@ -8,9 +8,10 @@
 ## Prerequisites
 
 Same environment as feature 001 (already set up):
-- Node.js 24.13.1
-- Angular CLI 21 (local — **do not** use a globally installed `ng`; PATH may not include it)
-- The `cbse-cs-hub` workspace running
+- Node.js 24 LTS (v24.13.1 or later)
+- Git
+- Angular CLI 21 — **use the locally installed one** (`node node_modules/@angular/cli/bin/ng`); global `ng` is not required
+- The `cbse-cs-hub` workspace cloned and `npm install` run
 
 ---
 
@@ -25,21 +26,28 @@ This installs Tesseract.js as a dev dependency. It will **not** appear in the pr
 
 ---
 
-## Start Development Server
+## Start Development Servers
 
-The global `ng` command may not be in PATH. Use the PowerShell helper scripts (repo root) or the local CLI directly:
+The admin panel requires **two servers** running simultaneously:
+
+| Server | Port | Purpose |
+|--------|------|---------|
+| Angular dev server | 4200 | Serves the app and proxies API calls |
+| Content write server | 3001 | Reads/writes content JSON files on disk |
+
+Use the PowerShell helper script (repo root) which starts both automatically:
 
 ```powershell
-# Recommended — PowerShell helper
-.\start.ps1          # default port 4200
-.\start.ps1 -Port 4300 -Open   # custom port + open browser
+# Recommended — starts both Angular dev server AND content-server.js
+.\start.ps1
 
-# Manual equivalent
+# Manual equivalent (two separate terminals)
 cd cbse-cs-hub
-node node_modules/@angular/cli/bin/ng serve
+node content-server.js        # Terminal 1 — content write server
+node node_modules/@angular/cli/bin/ng serve --proxy-config proxy.conf.json  # Terminal 2
 ```
 
-To stop: `.\stop.ps1`  |  To restart: `.\restart.ps1`
+To stop all servers: `.\stop.ps1`
 
 Navigate to [http://localhost:4200/admin](http://localhost:4200/admin).
 
@@ -56,26 +64,32 @@ The `/admin` route is protected by a route guard that checks `Angular.isDevMode(
 
 ## Authoring Workflow
 
-### Adding an MCQ Question
+Each editor has two screens: a **list view** (all existing questions with Edit/Delete) and a **form view**.
 
-Each editor has two screens: a **list view** (all existing questions) and a **form view**.
+> **No file editing required.** All changes are saved directly to the JSON files by the content write server.
+
+### Adding a Question
 
 1. Open [http://localhost:4200/admin](http://localhost:4200/admin)
-2. Select the **MCQ** tab
-3. Choose the target file from the dropdown (e.g. `cl12-python.json`) — existing questions load automatically
+2. Select the **MCQ**, **SQL**, or **Python** tab
+3. Choose the target file from the dropdown — existing questions load automatically in the list view
 4. Click **+ Add Question** to open the form view
 5. Click **Auto** next to the ID field — the next available ID is generated (e.g. `cl12-py-016`)
-6. Fill in: question text, four options, select the correct answer radio, explanation
+6. Fill in all required fields; for SQL/Python the `category`/`topic` is auto-filled from the file selection
 7. Toggle **Previous Year Question** if applicable → fill in the year
-8. Click **Generate JSON** — a JSON object appears in the output panel below
-9. Click **Copy** in the JSON output panel → snippet is copied to clipboard
-10. Open `cbse-cs-hub/src/assets/content/mcq/cl12-python.json`
-11. Paste the snippet as a new element inside the top-level `[ ]` array
-12. Save the file; the dev server hot-reloads
+8. Click **Add Question** (new) or **Save Changes** (edit) — the question is written to disk immediately and the list view refreshes
 
-**To edit an existing question**: from the list view, click **Edit** on any row → the form view pre-fills all fields → make changes → **Save / Generate Updated JSON** → copy the result and replace the whole array in the JSON file.
+### Editing an Existing Question
 
-**To delete a question**: from the list view, click **Delete** → the updated array (with that item removed) is shown → copy it and replace the file contents.
+1. From the list view, click **Edit** on any row
+2. The form view pre-fills all fields
+3. Make changes, then click **Save Changes**
+4. The updated question is written to disk and the list refreshes
+
+### Deleting a Question
+
+1. From the list view, click **Delete** on any row
+2. Confirm the dialog — the question is removed from the file immediately
 
 ### Optional: Screenshot OCR
 
@@ -83,11 +97,19 @@ Each editor has two screens: a **list view** (all existing questions) and a **fo
 2. Press **Ctrl+V** anywhere on the admin panel (or drag the image onto the OCR zone)
 3. Wait for OCR to complete (≤15s on a clear ≤2MB screenshot)
 4. Review auto-populated fields — if a yellow border appears, OCR confidence was low; review carefully
-5. Correct any OCR errors, then proceed with the standard Copy/Download workflow
+5. Correct any OCR errors, then click **Add Question** to save
 
-### Adding SQL or Python Questions
+---
 
-Follow the same flow on the **SQL** or **Python** tabs. The SQL answer field accepts multi-line SQL — newlines are preserved in the JSON output.
+## Content File Locations
+
+| Type | Files | Location |
+|------|-------|----------|
+| MCQ | `cl12-python.json`, `cl12-sql.json`, `cl12-networking.json`, `cl11-python.json`, `cl11-computer-fundamentals.json` | `src/assets/content/mcq/` |
+| SQL | `aggregate.json`, `group-by.json`, `joins.json`, `keys-constraints.json`, `order-by.json`, `select.json`, `where.json` | `src/assets/content/sql-questions/` |
+| Python | `conditions.json`, `dictionaries.json`, `functions.json`, `lists.json`, `loops.json`, `mixed.json`, `strings.json`, `variables.json` | `src/assets/content/python-exercises/` |
+
+> These files are updated in place by `content-server.js` when you save from the admin panel.
 
 ---
 

@@ -130,7 +130,20 @@ Routes: `cbse-cs-hub/src/app/app.routes.ts`
 
 - [x] T020 [P] Add paste-position instructions ("Paste inside the top-level `[ ]` array, after the last existing element. Add a comma after the previous element if needed.") and a JSON structure reminder snippet below the Copy/Download buttons in `cbse-cs-hub/src/app/features/admin/json-output/json-output.html`
 - [x] T021 [P] Implement unsaved-draft tab-switch confirmation in `AdminShellComponent`: add a `signal<boolean> isDirty` that each child editor sets via `@Output() dirtyChange`; in the tab-switch handler, call `window.confirm('You have unsaved changes — switching tabs will clear the form. Continue?')` before updating `activeTab` when `isDirty()` is `true`, and emit a `resetForm` signal to the active editor on confirmed switch — in `cbse-cs-hub/src/app/features/admin/admin-shell/admin-shell.ts`
-- [ ] T022 Run `ng build --configuration production` in `cbse-cs-hub/`, inspect all emitted JS chunk filenames and contents in `cbse-cs-hub/dist/`, and confirm: (a) no chunk contains the string `AdminShell`, `McqEditor`, `SqlEditor`, `PythonEditor`, or `tesseract`; (b) the total main bundle size has not increased compared to the pre-feature baseline
+- [x] T022 Run `ng build --configuration production` in `cbse-cs-hub/`, inspect all emitted JS chunk filenames and contents in `cbse-cs-hub/dist/`, and confirm: (a) no chunk contains the string `AdminShell`, `McqEditor`, `SqlEditor`, `PythonEditor`, or `tesseract`; (b) the total main bundle size has not increased compared to the pre-feature baseline
+
+---
+
+## Post-Implementation Tasks (added after initial implementation)
+
+*These tasks capture work done beyond the original T001–T022 scope during the implementation session.*
+
+- [x] T023 [P] Create `cbse-cs-hub/content-server.js` — plain Node.js HTTP server (no external dependencies, port 3001) with: `GET /content/{path}` (reads file, extracts `.questions` array from wrapper objects, returns plain array); `PUT /content/{path}` (receives plain array, re-wraps wrapper objects, writes file to disk); path-traversal prevention (`filePath.startsWith(CONTENT_DIR)`); `CONTENT_DIR = path.resolve(__dirname, 'src', 'assets', 'content')`
+- [x] T024 [P] Create `cbse-cs-hub/proxy.conf.json` (proxies `/api/content/*` → `http://127.0.0.1:3001`, strips `/api` prefix) and update `cbse-cs-hub/angular.json` serve options to include `"proxyConfig": "proxy.conf.json"`
+- [x] T025 Update `AdminContentLoaderService` to use `/api/content/` base URL (removing `APP_BASE_HREF` dependency) and add `save<T>(assetPath: string, items: T[]): Observable<void>` method that calls `PUT /api/content/{assetPath}` and updates the in-memory signal cache on success
+- [x] T026 Rewrite all three editors (`McqEditorComponent`, `SqlEditorComponent`, `PythonEditorComponent`) to use `loader.save()` for all CRUD operations (add, edit, delete) — replacing the `JsonOutputComponent`/draft/copy pattern entirely; each editor now has an inline list view with Edit/Delete buttons and a form view that saves directly on submit
+- [x] T027 Update `cbse-cs-hub/start.ps1` to start `content-server.js` as a background process before `ng serve`, and update `cbse-cs-hub/stop.ps1` to also kill port 3001
+- [x] T028 Update SQL editor file list to the 7 actual files (`sql-questions/aggregate.json`, `group-by.json`, `joins.json`, `keys-constraints.json`, `order-by.json`, `select.json`, `where.json`) with correct field names (`questionText`, `category`, `marks?`); update Python editor file list to the 8 actual files (`python-exercises/conditions.json`, `dictionaries.json`, `functions.json`, `lists.json`, `loops.json`, `mixed.json`, `strings.json`, `variables.json`) with correct field names (`questionText?`, `topic`, `answer?`, `isPreviousYear?`)
 
 ---
 

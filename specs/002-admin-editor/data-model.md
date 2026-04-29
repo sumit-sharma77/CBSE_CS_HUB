@@ -53,27 +53,32 @@ Maps to the `FormGroup` value in `SqlEditorComponent`.
 ```typescript
 interface SqlDraft {
   id: string;
-  question: string;
-  answer: string;           // multi-line SQL query
+  category: string;        // auto-filled from selected file (e.g. "aggregate", "joins")
+  questionText: string;    // field name in actual JSON files
+  answer: string;          // multi-line SQL query
   explanation: string;
   difficulty: 'easy' | 'medium' | 'hard';
   isPreviousYear: boolean;
   year?: number;
+  marks?: number;          // optional, used in some questions
 }
 ```
+
+**Target files**: `src/assets/content/sql-questions/*.json` (plain arrays `[ ]`)
 
 **Output shape**:
 ```json
 {
   "id": "sql-joins-008",
-  "question": "Write a query to display employee names and their department names using INNER JOIN.",
+  "category": "joins",
+  "questionText": "Write a query to display employee names and their department names using INNER JOIN.",
   "answer": "SELECT e.Name, d.DeptName\nFROM Employee e\nINNER JOIN Department d ON e.DeptId = d.DeptId;",
   "explanation": "INNER JOIN returns only rows where the join condition matches in both tables.",
   "difficulty": "medium",
   "isPreviousYear": false
 }
 ```
-*(year omitted when not a previous year question)*
+*(year/marks omitted when not set)*
 
 ---
 
@@ -83,31 +88,35 @@ Maps to the `FormGroup` value in `PythonEditorComponent`.
 ```typescript
 interface PythonDraft {
   id: string;
+  topic: string;            // auto-filled from selected file (e.g. "loops", "functions")
   type: 'output-based' | 'fill-blank' | 'mcq' | 'short-answer';
   difficulty: 'beginner' | 'intermediate';
-  question: string;
-  codeSnippet?: string;     // required when type = 'output-based'
-  answer: string;
+  questionText?: string;   // optional in actual JSON files
+  codeSnippet?: string;    // required when type = 'output-based'
+  answer?: string;         // optional in actual JSON files
   explanation: string;
-  isPreviousYear: boolean;
+  isPreviousYear?: boolean; // optional in actual JSON files
   year?: number;
 }
 ```
+
+**Target files**: `src/assets/content/python-exercises/*.json` (plain arrays `[ ]`)
 
 **Output shape** (output-based example):
 ```json
 {
   "id": "py-loops-011",
+  "topic": "loops",
   "type": "output-based",
   "difficulty": "beginner",
-  "question": "What will be the output of the following code?",
+  "questionText": "What will be the output of the following code?",
   "codeSnippet": "for i in range(1, 4):\n    print(i * 10)",
   "answer": "10\n20\n30",
   "explanation": "range(1, 4) generates 1, 2, 3. Each is multiplied by 10 and printed.",
   "isPreviousYear": false
 }
 ```
-*(codeSnippet omitted when type is not output-based; year omitted when isPreviousYear is false)*
+*(codeSnippet omitted when type is not output-based; optional fields omitted when not set)*
 
 ---
 
@@ -142,18 +151,24 @@ type IdPrefix = string;
 // "cl11-python.json" → prefix "cl11-py"
 // "cl12-sql.json" → prefix "cl12-sql"
 
-// SQL: "sql-" + filename-without-extension (hyphens stripped)
-// "basics.json"   → prefix "sql-basics"
-// "joins.json"    → prefix "sql-joins"
-// "group-by.json" → prefix "sql-groupby"   (hyphen removed)
-// "functions.json"→ prefix "sql-funcs"     (abbreviated)
+// SQL: "sql-" + filename-without-extension (hyphens preserved)
+// "sql-questions/aggregate.json"        → prefix "sql-agg"
+// "sql-questions/group-by.json"         → prefix "sql-groupby"
+// "sql-questions/joins.json"            → prefix "sql-joins"
+// "sql-questions/keys-constraints.json" → prefix "sql-keys"
+// "sql-questions/order-by.json"         → prefix "sql-orderby"
+// "sql-questions/select.json"           → prefix "sql-select"
+// "sql-questions/where.json"            → prefix "sql-where"
 
-// Python: "py-" + filename-without-extension (abbreviated)
-// "loops.json"        → prefix "py-loops"
-// "functions.json"    → prefix "py-functions"
-// "dictionaries.json" → prefix "py-dicts"       (abbreviated)
-// "strings.json"      → prefix "py-strings"
-// "lists.json"        → prefix "py-lists"
+// Python: "py-" + abbreviated filename-without-extension
+// "python-exercises/conditions.json"   → prefix "py-cond"
+// "python-exercises/dictionaries.json" → prefix "py-dict"
+// "python-exercises/functions.json"    → prefix "py-fn"
+// "python-exercises/lists.json"        → prefix "py-lists"
+// "python-exercises/loops.json"        → prefix "py-loops"
+// "python-exercises/mixed.json"        → prefix "py-mixed"
+// "python-exercises/strings.json"      → prefix "py-str"
+// "python-exercises/variables.json"    → prefix "py-vars"
 
 // Counter: max(existing numeric suffix for same prefix) + 1, zero-padded to 3 digits
 // No existing IDs → start at "001"
@@ -192,7 +207,7 @@ interface IAdminOcrService {
 |---|---|---|
 | Any `id` | Non-empty, unique in `existingItems` | "ID already exists — please change it" |
 | Any `id` | Matches format `{prefix}-{NNN}` | (shown as advisory warning only, not blocking) |
-| `question` | Non-empty | "Question text is required" |
+| `question` / `questionText` | Non-empty | "Question text is required" |
 | MCQ `options[i]` | Non-empty (all 4) | "All four options are required" |
 | MCQ `correctIndex` | 0–3 | "Select the correct answer" |
 | Any `explanation` | Non-empty | "Explanation is required" |

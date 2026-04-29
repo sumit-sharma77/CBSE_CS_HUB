@@ -8,7 +8,7 @@
 ## Implementation Status
 
 **T001–T021**: ✅ Complete (2026-04-29)
-**T022**: ⬜ Pending — production bundle verification (`ng build --configuration production` + chunk inspection)
+**T022**: ✅ Complete — production bundle verified clean (no admin/tesseract strings in production chunks)
 
 ### Implementation Deviations
 
@@ -17,16 +17,25 @@
 | Editor layout | Form-only + `ContentBrowserComponent` below | **List/form pattern**: list view shows all questions with Edit/Delete; form view is a separate screen within the same component |
 | Separate HTML/CSS files | `mcq-editor.html`, `mcq-editor.css`, etc. | Inline template in `.ts` (single-file standalone components) |
 | `ContentBrowserComponent` | Used by all three editors | Still exists; superseded by the inline list — editors no longer import it |
-| `AdminContentLoaderService` URL | `assets/content/{assetPath}` (relative) | Injects `APP_BASE_HREF`; builds `${baseHref}assets/content/{assetPath}` to handle `/CBSE_CS_HUB/` base path |
-| 404 handling | Not specified | 404 → empty array `[]` (file not created yet); other errors → `null` (error state) |
-| Start/stop scripts | Not in feature scope | `start.ps1`, `stop.ps1`, `restart.ps1` added to repo root |
+| JSON copy/paste workflow | Generate JSON snippet → author pastes manually | **Direct save via local write server**: form submit calls `AdminContentLoaderService.save()` → `PUT /api/content/{path}` → file written to disk; list rerenders instantly |
+| `AdminContentLoaderService` URL | `assets/content/{assetPath}` (relative) | Uses `/api/content/{assetPath}` (proxied to `content-server.js` on port 3001) for both reads and writes |
+| No backend | NFR-004 stated no server calls | `content-server.js` — plain Node.js HTTP server (no framework), local-only, never deployed, handles GET (read) + PUT (write) |
+| `JsonOutputComponent` | Used by all three editors for copy/download | **Removed from editors** — direct save replaces the copy/paste workflow entirely |
+| SQL content path | `sql/basics.json`, `sql/joins.json`, etc. | **Actual path**: `sql-questions/aggregate.json`, `sql-questions/joins.json`, etc. (7 files) |
+| Python content path | `python/loops.json`, `python/functions.json`, etc. | **Actual path**: `python-exercises/loops.json`, etc. (8 files: conditions, dictionaries, functions, lists, loops, mixed, strings, variables) |
+| SQL field name | `question` | **Actual**: `questionText`; added `category` and optional `marks` fields |
+| Python field name | `question` | **Actual**: `questionText` (optional); added `topic`; `answer`/`isPreviousYear` optional |
+| MCQ file format | Plain array `[ ]` | **Wrapper object**: `{ id, classLevel, topic, description, questions: [...] }` — service extracts `.questions` on read; write server re-wraps on save |
+| `app.config.ts` `APP_BASE_HREF` | Used for URL construction | Not provided in DI — service now uses `/api/content/` directly (no base-href logic needed) |
+| 404 handling | Not specified | 404 → empty array `[]`; other errors → `null` (error state) |
+| Start/stop scripts | Not in feature scope | `start.ps1` now starts **both** Angular dev server AND `content-server.js`; `stop.ps1` kills both ports (4200 + 3001) |
 | `deploy.sh` | Not modified | Updated: strips admin JS chunks + patches `ngsw.json` before GitHub Pages push |
 
 ---
 
 ## Summary
 
-Build a hidden `/admin` route — accessible only in Angular `isDevMode()` — that provides a form-driven UI for the content author to generate correctly-shaped JSON snippets for MCQ, SQL, and Python content files without manually editing raw JSON. The feature is lazy-loaded into a completely separate Angular chunk; **zero bytes** of admin code appear in the production bundle. Core capabilities: reactive forms per content type, live preview via reused shared components, clipboard/download JSON output, drag-and-drop OCR via Tesseract.js (lazily imported), and a read-only existing content browser for duplicate detection.
+Build a hidden `/admin` route — accessible only in Angular `isDevMode()` — that provides a **form-driven CRUD UI** for the content author to add, edit, and delete MCQ, SQL, and Python content questions with **direct file writes** (no copy/paste required). A local Node.js write server (`content-server.js`, port 3001) handles disk I/O; the Angular dev server proxies API calls to it via `proxy.conf.json`. The feature is lazy-loaded into a completely separate Angular chunk; **zero bytes** of admin code appear in the production bundle. Core capabilities: reactive forms per content type, direct save with instant list refresh, drag-and-drop OCR via Tesseract.js (lazily imported), and an inline list/form pattern for browse + edit + delete.
 
 ---
 
@@ -243,34 +252,31 @@ AdminShellComponent                        [lazy root — providedIn: null servi
                            │ activeTab drives @switch
              ┌─────────────▼──────────────┐
              │     Editor Component        │  (McqEditor | SqlEditor | PythonEditor)
+             │     [list view / form view]  │
              │                             │
              │  signal<string> targetFile ──► AdminContentLoaderService.load(path)
-             │                             │         │
-             │  HttpClient GET asset ◄──────────────┘
-             │  → signal<Question[]> existingItems (cached)
+             │                             │         │  GET /api/content/{path}
+             │  items[] ◄───────────────────────────┘  (plain array; server handles wrapper)
              │                             │
-             │  AdminIdGeneratorService.nextId(existingItems, prefix)
-             │  → signal<string> generatedId   (recomputes on existingItems change)
+             │  AdminIdGeneratorService.nextId(items, prefix)
+             │  → auto-generated ID         │
              │                             │
-             │  ReactiveForm (FormGroup) ◄── OcrZoneComponent (paste/drop)
-             │  form.valueChanges            │      │
-             │  → signal<Draft>              │      ▼ AdminOcrService
-             │       │                       │   dynamic import('tesseract.js')
-             │       │                       │   → OcrResult { text, confidence }
-             │       │                       │   → patch form controls
-             │       │                       │   → warn banner if confidence < 70
-             │       │                       │
-             │  computed<Question> ──────────────► LivePreviewPane
-             │  previewQuestion()            │         └─ shared component
-             │                              │
-             │  form.valid + form.dirty ─────────► JsonOutputComponent
-             │                                          │
-             │                            ┌────────────┴────────────┐
-             │                         Copy JSON              Download JSON
-             │                    navigator.clipboard         Blob + <a>.click()
-             │                    .writeText(json)            filename: {id}.json
-             │                    → 2s "Copied!" signal
+             │  ReactiveForm ◄──────── OcrZoneComponent → AdminOcrService
+             │  form.valueChanges           │   dynamic import('tesseract.js')
+             │                             │
+             │  onSubmit() → build updated items[]
+             │  AdminContentLoaderService.save(path, items[])
+             │       │  PUT /api/content/{path}
+             │       │  → content-server.js writes file to disk
+             │       │  → cached signal updated → list rerenders
+             │       │
+             │  deleteItem() → filter items → save()
+             │  startEdit()  → patchValue()  → onSubmit() → map+replace → save()
              └─────────────────────────────────────────────────────────────────┘
+
+content-server.js (port 3001, local only)
+  GET /content/{path}  → read file, extract .questions if wrapper, return array
+  PUT /content/{path}  → receive array, re-wrap if wrapper file, write to disk
 ```
 
 ---
@@ -282,15 +288,25 @@ AdminShellComponent                        [lazy root — providedIn: null servi
 *Scope*: `providedIn: null` — provided in `AdminShellComponent.providers`
 
 ```typescript
+const API_BASE = '/api/content/';  // proxied to content-server.js on port 3001
+
 class AdminContentLoaderService {
   private http = inject(HttpClient);
-  private cache = new Map<string, Signal<unknown[] | null>>();
+  private cache = new Map<string, WritableSignal<unknown[] | null>>();
 
   load<T>(assetPath: string): Signal<T[] | null>
-  // Uses toSignal(http.get<T[]>(url), { initialValue: null })
-  // Resolves to: /assets/content/{assetPath}
-  // On HTTP error: emits null (ContentBrowserComponent shows error state)
-  // Cache keyed by assetPath; cleared when AdminShellComponent destroyed
+  // GET /api/content/{assetPath} → returns plain array
+  // content-server extracts .questions from wrapper objects automatically
+  // Cached in-memory; subsequent calls return same signal
+
+  save<T>(assetPath: string, items: T[]): Observable<void>
+  // PUT /api/content/{assetPath} with items[] as body
+  // content-server writes file (re-wraps wrapper objects)
+  // On success: updates the cached signal → list rerenders instantly
+  // On error (status 0 = server not reachable, other = write failure): throws Error
+
+  reload(assetPath: string): void
+  // Clears cache entry and re-fetches
 }
 ```
 
@@ -314,10 +330,26 @@ class AdminIdGeneratorService {
 **ID prefix derivation**:
 | Content type | File | Prefix | Example output |
 |---|---|---|---|
-| MCQ | `cl12-python.json` | `cl12-py` | `cl12-py-016` |
-| MCQ | `cl11-computer-fundamentals.json` | `cl11-cf` | `cl11-cf-005` |
-| SQL | `joins.json` | `sql-joins` | `sql-joins-008` |
-| Python | `loops.json` | `py-loops` | `py-loops-011` |
+| MCQ | `mcq/cl12-python.json` | `cl12-py` | `cl12-py-016` |
+| MCQ | `mcq/cl12-sql.json` | `cl12-sql` | `cl12-sql-008` |
+| MCQ | `mcq/cl12-networking.json` | `cl12-nw` | `cl12-nw-005` |
+| MCQ | `mcq/cl11-python.json` | `cl11-py` | `cl11-py-004` |
+| MCQ | `mcq/cl11-computer-fundamentals.json` | `cl11-cf` | `cl11-cf-005` |
+| SQL | `sql-questions/aggregate.json` | `sql-agg` | `sql-agg-008` |
+| SQL | `sql-questions/group-by.json` | `sql-groupby` | `sql-groupby-003` |
+| SQL | `sql-questions/joins.json` | `sql-joins` | `sql-joins-008` |
+| SQL | `sql-questions/keys-constraints.json` | `sql-keys` | `sql-keys-004` |
+| SQL | `sql-questions/order-by.json` | `sql-orderby` | `sql-orderby-005` |
+| SQL | `sql-questions/select.json` | `sql-select` | `sql-select-010` |
+| SQL | `sql-questions/where.json` | `sql-where` | `sql-where-006` |
+| Python | `python-exercises/conditions.json` | `py-cond` | `py-cond-004` |
+| Python | `python-exercises/dictionaries.json` | `py-dict` | `py-dict-003` |
+| Python | `python-exercises/functions.json` | `py-fn` | `py-fn-007` |
+| Python | `python-exercises/lists.json` | `py-lists` | `py-lists-005` |
+| Python | `python-exercises/loops.json` | `py-loops` | `py-loops-011` |
+| Python | `python-exercises/mixed.json` | `py-mixed` | `py-mixed-006` |
+| Python | `python-exercises/strings.json` | `py-str` | `py-str-008` |
+| Python | `python-exercises/variables.json` | `py-vars` | `py-vars-005` |
 
 **Counter rules**: scan all existing IDs with the same prefix, extract numeric suffix, take max, increment by 1, zero-pad to 3 digits. If no existing IDs match: start at `001`.
 
@@ -664,7 +696,7 @@ switchTab(next: 'mcq' | 'sql' | 'python'): void {
 Re-evaluated after Phase 1 design:
 
 - [x] **Production bundle isolation** — confirmed via lazy `loadComponent` + dynamic OCR import; no static reference to admin code in `app.routes.ts` beyond the arrow function body
-- [x] **No backend dependency** — `AdminContentLoaderService` reads `/assets/content/*` from dev-server file serving; OCR is fully in-browser
+- [x] **No backend dependency for student app** — production build has no server requirements; `AdminContentLoaderService` reads/writes `/api/content/*` only during dev mode via `content-server.js` (local, port 3001). The write server never ships.
 - [x] **Codebase consistency** — all components standalone; signals used for reactive state; `inject()` for DI; Tailwind for styles; no NgModules introduced; reactive forms follow existing patterns
 - [x] **Reuse over duplication** — live preview uses existing shared components directly; `ContentBrowserComponent` and `JsonOutputComponent` are generic and shared across all 3 editors
 - [x] **Guard correctness** — `isDevMode() || router.createUrlTree(['/403'])` is the canonical Angular 21 inline functional guard pattern
