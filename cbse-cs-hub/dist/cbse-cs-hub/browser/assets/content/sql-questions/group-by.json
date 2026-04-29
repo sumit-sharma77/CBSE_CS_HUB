@@ -1,0 +1,33 @@
+[
+  {
+    "id": "sql-groupby-001",
+    "category": "group-by",
+    "questionText": "Write a SQL query to find the count of employees in each department from the EMPLOYEE table.",
+    "answer": "SELECT DEPT, COUNT(*) AS 'Employee Count'\nFROM EMPLOYEE\nGROUP BY DEPT;",
+    "explanation": "GROUP BY groups rows with the same DEPT value. COUNT(*) counts rows in each group. Aggregate functions work on groups.",
+    "difficulty": "medium",
+    "isPreviousYear": true,
+    "year": 2024,
+    "marks": 3
+  },
+  {
+    "id": "sql-groupby-002",
+    "category": "group-by",
+    "questionText": "Write a SQL query to display departments having average salary greater than 60000 from the EMPLOYEE table.",
+    "answer": "SELECT DEPT, AVG(SALARY) AS 'Avg Salary'\nFROM EMPLOYEE\nGROUP BY DEPT\nHAVING AVG(SALARY) > 60000;",
+    "explanation": "HAVING is used to filter groups (like WHERE for individual rows). HAVING can use aggregate functions; WHERE cannot.",
+    "difficulty": "hard",
+    "isPreviousYear": true,
+    "year": 2023,
+    "marks": 3
+  },
+  {
+    "id": "sql-groupby-003",
+    "category": "group-by",
+    "questionText": "Write a query to display the maximum salary in each department from the EMPLOYEE table, only for departments with more than 2 employees.",
+    "answer": "SELECT DEPT, MAX(SALARY) AS 'Max Salary'\nFROM EMPLOYEE\nGROUP BY DEPT\nHAVING COUNT(*) > 2;",
+    "explanation": "HAVING COUNT(*) > 2 filters out groups (departments) that have 2 or fewer employees before displaying results.",
+    "difficulty": "hard",
+    "isPreviousYear": false
+  }
+]

@@ -1,0 +1,35 @@
+[
+  {
+    "id": "sql-joins-001",
+    "category": "joins",
+    "questionText": "A STUDENTS table has SID, SNAME and a COURSES table has CID, CNAME, SID (foreign key). Write a query to display SNAME and CNAME for all students who are enrolled in a course.",
+    "answer": "SELECT S.SNAME, C.CNAME\nFROM STUDENTS S\nINNER JOIN COURSES C ON S.SID = C.SID;",
+    "explanation": "INNER JOIN returns rows where there is a matching value in both tables. Students with no course will not appear in the result.",
+    "difficulty": "medium",
+    "isPreviousYear": true,
+    "year": 2024,
+    "marks": 3
+  },
+  {
+    "id": "sql-joins-002",
+    "category": "joins",
+    "questionText": "From the same STUDENTS and COURSES tables, write a query to display all students including those not enrolled in any course.",
+    "answer": "SELECT S.SNAME, C.CNAME\nFROM STUDENTS S\nLEFT JOIN COURSES C ON S.SID = C.SID;",
+    "explanation": "LEFT JOIN returns all rows from the left table (STUDENTS) and matching rows from the right table (COURSES). Unmatched students appear with NULL for CNAME.",
+    "difficulty": "medium",
+    "isPreviousYear": true,
+    "year": 2023,
+    "marks": 3
+  },
+  {
+    "id": "sql-joins-003",
+    "category": "joins",
+    "questionText": "Explain Cartesian Product / CROSS JOIN with an example query using STUDENTS and COURSES tables.",
+    "answer": "SELECT S.SNAME, C.CNAME\nFROM STUDENTS S\nCROSS JOIN COURSES C;",
+    "explanation": "CROSS JOIN (Cartesian Product) joins every row of the first table with every row of the second table. If STUDENTS has 5 rows and COURSES has 4 rows, the result has 5 × 4 = 20 rows.",
+    "difficulty": "hard",
+    "isPreviousYear": true,
+    "year": 2025,
+    "marks": 3
+  }
+]

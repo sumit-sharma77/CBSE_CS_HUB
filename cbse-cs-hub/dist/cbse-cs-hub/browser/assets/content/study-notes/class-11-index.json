@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cl11-ch01-computer-fundamentals",
+    "classLevel": 11,
+    "title": "Computer Fundamentals",
+    "chapterNumber": 1,
+    "tags": ["computer", "hardware", "software", "memory", "CPU", "input output"],
+    "assetPath": "study-notes/class-11/cl11-ch01-computer-fundamentals.json"
+  },
+  {
+    "id": "cl11-ch02-python-basics",
+    "classLevel": 11,
+    "title": "Getting Started with Python",
+    "chapterNumber": 2,
+    "tags": ["python", "introduction", "idle", "print", "variables", "keywords"],
+    "assetPath": "study-notes/class-11/cl11-ch02-python-basics.json"
+  },
+  {
+    "id": "cl11-ch03-data-handling",
+    "classLevel": 11,
+    "title": "Data Handling in Python",
+    "chapterNumber": 3,
+    "tags": ["python", "data types", "int", "float", "string", "boolean", "type conversion"],
+    "assetPath": "study-notes/class-11/cl11-ch03-data-handling.json"
+  }
+]

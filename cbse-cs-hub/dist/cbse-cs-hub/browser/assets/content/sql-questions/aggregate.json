@@ -1,0 +1,33 @@
+[
+  {
+    "id": "sql-agg-001",
+    "category": "aggregate",
+    "questionText": "Write a SQL query to find the total marks scored by all students in the STUDENTS table.",
+    "answer": "SELECT SUM(MARKS) AS 'Total Marks' FROM STUDENTS;",
+    "explanation": "SUM() adds all non-NULL values in the column. It returns a single row with the total.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2023,
+    "marks": 2
+  },
+  {
+    "id": "sql-agg-002",
+    "category": "aggregate",
+    "questionText": "Write a SQL query to find the highest, lowest, and average marks from the STUDENTS table.",
+    "answer": "SELECT MAX(MARKS) AS 'Highest',\n       MIN(MARKS) AS 'Lowest',\n       AVG(MARKS) AS 'Average'\nFROM STUDENTS;",
+    "explanation": "Multiple aggregate functions can be used in a single SELECT. MAX(), MIN(), and AVG() all ignore NULL values.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2025,
+    "marks": 3
+  },
+  {
+    "id": "sql-agg-003",
+    "category": "aggregate",
+    "questionText": "Write a query to count the number of employees in the EMPLOYEE table. Then write another query to count only those with a non-NULL value in the EMAIL column.",
+    "answer": "-- Count all rows\nSELECT COUNT(*) AS 'Total Employees' FROM EMPLOYEE;\n\n-- Count non-NULL emails\nSELECT COUNT(EMAIL) AS 'With Email' FROM EMPLOYEE;",
+    "explanation": "COUNT(*) counts all rows including those with NULLs. COUNT(column) counts only non-NULL values in that column.",
+    "difficulty": "medium",
+    "isPreviousYear": false
+  }
+]

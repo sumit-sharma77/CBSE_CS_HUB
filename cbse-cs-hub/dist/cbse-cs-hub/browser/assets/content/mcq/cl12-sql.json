@@ -1,0 +1,121 @@
+{
+  "id": "cl12-sql",
+  "classLevel": 12,
+  "topic": "Database & SQL",
+  "description": "SELECT, JOINs, keys, constraints & DDL/DML",
+  "questions": [
+    {
+      "id": "cl12-sql-001",
+      "question": "Which SQL command is used to remove a whole table (structure + data) from the database permanently?",
+      "options": ["DELETE", "DROP", "TRUNCATE", "REMOVE"],
+      "correctIndex": 1,
+      "explanation": "DROP TABLE removes the entire table including its structure and all data, permanently. DELETE removes rows but keeps the table. TRUNCATE removes all rows but keeps the structure.",
+      "year": 2023,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-002",
+      "question": "Which of the following is a DDL (Data Definition Language) command?",
+      "options": ["SELECT", "INSERT", "UPDATE", "CREATE"],
+      "correctIndex": 3,
+      "explanation": "DDL commands define or modify database structure: CREATE, ALTER, DROP, TRUNCATE. DML commands manipulate data: SELECT, INSERT, UPDATE, DELETE.",
+      "year": 2022,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-003",
+      "question": "What does the PRIMARY KEY constraint ensure in a table?",
+      "options": ["No duplicate values only", "No NULL values only", "Both unique and non-NULL values", "All values are positive numbers"],
+      "correctIndex": 2,
+      "explanation": "A PRIMARY KEY is a combination of NOT NULL and UNIQUE constraints. It ensures that the column has no NULL values and no duplicate values, uniquely identifying each row.",
+      "year": 2024,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-004",
+      "question": "Which clause is used to filter records after a GROUP BY operation?",
+      "options": ["WHERE", "HAVING", "FILTER", "CONDITION"],
+      "correctIndex": 1,
+      "explanation": "HAVING is used to filter groups created by GROUP BY. WHERE filters individual rows BEFORE grouping. HAVING filters grouped results AFTER grouping.",
+      "year": 2022,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-005",
+      "question": "Which SQL function returns the largest value in a column?",
+      "options": ["LARGEST()", "TOP()", "MAX()", "MAXIMUM()"],
+      "correctIndex": 2,
+      "explanation": "MAX() is the SQL aggregate function that returns the maximum (largest) value in a column. Other aggregate functions include MIN(), AVG(), SUM(), and COUNT().",
+      "year": 2024,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-006",
+      "question": "What is the purpose of a FOREIGN KEY in SQL?",
+      "options": ["Uniquely identify each row in its own table", "Link two tables by referencing the primary key of another table", "Prevent NULL values in a column", "Sort the result of a query"],
+      "correctIndex": 1,
+      "explanation": "A FOREIGN KEY is a constraint that establishes a link between two tables. It references the PRIMARY KEY of another table, enforcing referential integrity.",
+      "year": 2023,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-007",
+      "question": "Which of the following SQL statements correctly deletes a record where RollNo = 5?",
+      "options": [
+        "DELETE FROM Student WHERE RollNo = 5",
+        "REMOVE FROM Student WHERE RollNo = 5",
+        "DROP FROM Student WHERE RollNo = 5",
+        "DELETE Student WHERE RollNo = 5"
+      ],
+      "correctIndex": 0,
+      "explanation": "The correct syntax is: DELETE FROM table_name WHERE condition. The FROM keyword is mandatory and there is no REMOVE command in standard SQL.",
+      "year": 2022,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-008",
+      "question": "What does the DISTINCT keyword do in a SELECT statement?",
+      "options": ["Sorts the result in ascending order", "Removes duplicate rows from the result", "Counts unique values only", "Groups rows with similar values"],
+      "correctIndex": 1,
+      "explanation": "SELECT DISTINCT removes duplicate rows from the query result. For example, SELECT DISTINCT City FROM Students returns each city only once, even if multiple students share the same city.",
+      "year": 2024,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-009",
+      "question": "Which JOIN returns only the rows that have matching values in BOTH tables?",
+      "options": ["LEFT JOIN", "RIGHT JOIN", "FULL OUTER JOIN", "INNER JOIN"],
+      "correctIndex": 3,
+      "explanation": "INNER JOIN (or simply JOIN) returns only the rows where there is a match in both tables. LEFT JOIN returns all rows from the left table; RIGHT JOIN from the right; FULL OUTER JOIN from both.",
+      "year": 2023,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-010",
+      "question": "Which SQL command is used to modify an existing column in a table?",
+      "options": ["UPDATE", "MODIFY", "ALTER TABLE", "CHANGE"],
+      "correctIndex": 2,
+      "explanation": "ALTER TABLE is used to modify an existing table structure — adding columns (ADD), modifying existing columns (MODIFY), or dropping columns (DROP COLUMN).",
+      "year": 2022,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-011",
+      "question": "What is the output of the following SQL query if the Student table has 10 rows and 4 students have Marks > 80?\n\nSELECT COUNT(*) FROM Student WHERE Marks > 80;",
+      "options": ["10", "4", "80", "NULL"],
+      "correctIndex": 1,
+      "explanation": "COUNT(*) counts the number of rows that satisfy the WHERE condition. Since 4 students have Marks > 80, the result is 4.",
+      "year": 2023,
+      "isPreviousYear": true
+    },
+    {
+      "id": "cl12-sql-012",
+      "question": "Which of the following SQL patterns matches any name starting with 'A'?",
+      "options": ["Name = 'A%'", "Name LIKE 'A%'", "Name LIKE '%A'", "Name STARTS WITH 'A'"],
+      "correctIndex": 1,
+      "explanation": "The LIKE operator is used for pattern matching. 'A%' means any string starting with 'A' (% matches zero or more characters). LIKE '%A' would match names ending with 'A'.",
+      "year": 2024,
+      "isPreviousYear": true
+    }
+  ]
+}

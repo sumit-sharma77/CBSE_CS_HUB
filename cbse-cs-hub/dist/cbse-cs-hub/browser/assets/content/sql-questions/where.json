@@ -1,0 +1,53 @@
+[
+  {
+    "id": "sql-where-001",
+    "category": "where",
+    "questionText": "Write a SQL query to display all students from the STUDENTS table who have scored more than 90 marks.",
+    "answer": "SELECT * FROM STUDENTS\nWHERE MARKS > 90;",
+    "explanation": "The WHERE clause filters rows based on a condition. Only rows where MARKS > 90 will be included in the result.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2023,
+    "marks": 2
+  },
+  {
+    "id": "sql-where-002",
+    "category": "where",
+    "questionText": "Write a SQL query to find employees in the EMPLOYEE table whose DEPT is 'HR' and SALARY is greater than 50000.",
+    "answer": "SELECT * FROM EMPLOYEE\nWHERE DEPT = 'HR' AND SALARY > 50000;",
+    "explanation": "Multiple conditions can be combined using AND (both must be true), OR (at least one must be true), and NOT.",
+    "difficulty": "easy",
+    "isPreviousYear": false
+  },
+  {
+    "id": "sql-where-003",
+    "category": "where",
+    "questionText": "Write a query to display students whose names start with 'A' from the STUDENTS table.",
+    "answer": "SELECT * FROM STUDENTS\nWHERE NAME LIKE 'A%';",
+    "explanation": "The LIKE operator is used for pattern matching. % matches any sequence of characters. _ matches a single character.",
+    "difficulty": "medium",
+    "isPreviousYear": true,
+    "year": 2024,
+    "marks": 2
+  },
+  {
+    "id": "sql-where-004",
+    "category": "where",
+    "questionText": "Write a SQL query to display records of students from STUDENTS table whose marks are between 60 and 80 (inclusive).",
+    "answer": "SELECT * FROM STUDENTS\nWHERE MARKS BETWEEN 60 AND 80;",
+    "explanation": "BETWEEN is inclusive of both endpoints. It is equivalent to: MARKS >= 60 AND MARKS <= 80.",
+    "difficulty": "easy",
+    "isPreviousYear": true,
+    "year": 2025,
+    "marks": 2
+  },
+  {
+    "id": "sql-where-005",
+    "category": "where",
+    "questionText": "Write a SQL query to display all employees whose department is either 'IT', 'Finance', or 'HR' from the EMPLOYEE table.",
+    "answer": "SELECT * FROM EMPLOYEE\nWHERE DEPT IN ('IT', 'Finance', 'HR');",
+    "explanation": "IN operator checks if a value matches any value in a list. It is a cleaner alternative to multiple OR conditions.",
+    "difficulty": "easy",
+    "isPreviousYear": false
+  }
+]
