@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { isDevMode } from '@angular/core';
 
 export const routes: Routes = [
   {
@@ -52,6 +53,15 @@ export const routes: Routes = [
   {
     path: 'search',
     loadComponent: () => import('./features/search-results/search-results').then(m => m.SearchResults),
+  },
+  {
+    path: '403',
+    loadComponent: () => import('./features/forbidden/forbidden').then(m => m.ForbiddenComponent),
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./features/admin/admin-shell/admin-shell').then(m => m.AdminShellComponent),
+    canActivate: [() => isDevMode()],
   },
   {
     path: '**',

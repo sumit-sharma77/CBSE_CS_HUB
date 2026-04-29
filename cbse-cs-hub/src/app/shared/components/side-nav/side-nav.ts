@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface NavItem {
@@ -25,11 +25,23 @@ interface NavItem {
             </a>
           </li>
         }
+        @if (showAdmin) {
+          <li class="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <a routerLink="/admin" routerLinkActive="bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 font-semibold"
+               class="flex items-center gap-3 px-3 py-2 rounded-lg text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+               aria-label="Admin Editor">
+              <span class="text-lg">⚙️</span>
+              <span>Admin Editor</span>
+            </a>
+          </li>
+        }
       </ul>
     </nav>
   `,
 })
 export class SideNav {
+  protected readonly showAdmin = isDevMode();
+
   protected navItems: NavItem[] = [
     { label: 'Study Notes', route: '/study-notes', icon: '📖' },
     { label: 'MCQ Quiz', route: '/mcq', icon: '🧠' },

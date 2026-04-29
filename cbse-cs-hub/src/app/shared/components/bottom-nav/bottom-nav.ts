@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 interface NavItem {
@@ -25,11 +25,23 @@ interface NavItem {
             </a>
           </li>
         }
+        @if (showAdmin) {
+          <li class="flex-1">
+            <a routerLink="/admin" routerLinkActive="text-amber-600 dark:text-amber-400"
+               class="flex flex-col items-center justify-center h-full text-amber-500 dark:text-amber-400 text-xs gap-1"
+               aria-label="Admin">
+              <span class="text-lg leading-none">⚙️</span>
+              <span>Admin</span>
+            </a>
+          </li>
+        }
       </ul>
     </nav>
   `,
 })
 export class BottomNav {
+  protected readonly showAdmin = isDevMode();
+
   protected navItems: NavItem[] = [
     { label: 'Study', route: '/study-notes', icon: '📖' },
     { label: 'MCQ', route: '/mcq', icon: '🧠' },

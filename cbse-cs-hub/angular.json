@@ -50,6 +50,7 @@
                 }
               ],
               "outputHashing": "all",
+              "allowedCommonJsDependencies": ["tesseract.js", "regenerator-runtime"],
               "serviceWorker": "ngsw-config.json"
             },
             "development": {
@@ -62,6 +63,9 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "cbse-cs-hub:build:production"
