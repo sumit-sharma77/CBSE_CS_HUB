@@ -1,0 +1,22 @@
+# Java
+target/
+*.class
+
+# Maven
+.mvn/wrapper/maven-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.eclipse/
+
+# Logs
+*.log
+logs/
+
+# Environment
+.env
+.env.local
+
+# Build outputs
+dist/

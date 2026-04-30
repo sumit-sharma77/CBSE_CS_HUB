@@ -1,0 +1,77 @@
+# ============================================================
+# LOCAL / DEV profile  — uses H2 in-memory DB, no Redis needed
+# Switch to 'prod' profile for PostgreSQL + Redis
+# ============================================================
+
+spring:
+
+  # ── Database: H2 in-memory ─────────────────────────────────
+  datasource:
+    url: jdbc:h2:mem:cbsecshub;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;NON_KEYWORDS=VALUE
+    username: sa
+    password: ""
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop          # Hibernate builds schema from entities
+    show-sql: false
+    defer-datasource-initialization: true  # Run sql.init AFTER Hibernate DDL
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: false
+
+  # ── Disable Flyway (H2 uses Hibernate DDL instead) ─────────
+  flyway:
+    enabled: false
+
+  # ── Seed data for local dev (runs after Hibernate DDL) ─────
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data-local.sql
+
+  # ── H2 browser console at http://localhost:8080/h2-console ─
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  # ── Redis: keep auto-config but point to localhost (lazy) ──
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 500ms    # fail fast; try-catch handles unavailability
+
+  # ── Mail: disable SMTP so registration works without a relay
+  mail:
+    host: localhost
+    port: 1025          # harmless if nothing is listening
+
+# ── App-level feature flags ─────────────────────────────────
+app:
+  redis:
+    enabled: false      # disables RateLimitConfig; leaderboard/streak degrade gracefully
+  mail:
+    verify-email: false # skip email-verification gate for local dev
+  admin:
+    email: admin@cbsecshub.local
+    password: Admin@1234
+
+# ── Swagger always on in local ───────────────────────────────
+springdoc:
+  swagger-ui:
+    enabled: true
+  api-docs:
+    enabled: true
+
+# ── Logging ─────────────────────────────────────────────────
+logging:
+  level:
+    root: INFO
+    com.cbsecshub: DEBUG
+    org.flywaydb: WARN

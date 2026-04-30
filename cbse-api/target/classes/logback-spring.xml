@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       dev profile  → human-readable pattern to console
+       ═══════════════════════════════════════════════════════════ -->
+  <springProfile name="dev,default,local">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder>
+        <pattern>%d{HH:mm:ss.SSS} %highlight(%-5level) [%X{requestId:-—}] [%X{userId:-—}] %cyan(%logger{36}) - %msg%n</pattern>
+      </encoder>
+    </appender>
+
+    <root level="${LOG_LEVEL:-INFO}">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       docker / production profile → JSON to stdout (Railway syslog drain → Papertrail)
+       ═══════════════════════════════════════════════════════════ -->
+  <springProfile name="docker,production">
+    <appender name="JSON_CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+      <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+        <includeCallerData>false</includeCallerData>
+        <includeMdcKeyName>requestId</includeMdcKeyName>
+        <includeMdcKeyName>userId</includeMdcKeyName>
+        <fieldNames>
+          <timestamp>timestamp</timestamp>
+          <version>[ignore]</version>
+          <levelValue>[ignore]</levelValue>
+        </fieldNames>
+        <customFields>{"app":"cbse-api"}</customFields>
+        <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+          <maxDepthPerCause>30</maxDepthPerCause>
+          <rootCauseFirst>true</rootCauseFirst>
+        </throwableConverter>
+      </encoder>
+    </appender>
+
+    <root level="${LOG_LEVEL:-INFO}">
+      <appender-ref ref="JSON_CONSOLE"/>
+    </root>
+  </springProfile>
+
+</configuration>

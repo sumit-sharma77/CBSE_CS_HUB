@@ -1,0 +1,76 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: cbsecshub
+      POSTGRES_USER: ${DB_USER:-cbse}
+      POSTGRES_PASSWORD: ${DB_PASS:-cbse}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-cbse} -d cbsecshub"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  cbse-api:
+    build:
+      context: ./cbse-api
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_URL: jdbc:postgresql://postgres:5432/cbsecshub
+      DB_USER: ${DB_USER:-cbse}
+      DB_PASS: ${DB_PASS:-cbse}
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-change-this-in-production-must-be-at-least-32-characters}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID:-}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET:-}
+      RAZORPAY_WEBHOOK_SECRET: ${RAZORPAY_WEBHOOK_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-smtp.gmail.com}
+      SMTP_USER: ${SMTP_USER:-}
+      SMTP_PASS: ${SMTP_PASS:-}
+      CORS_ORIGINS: http://localhost:4200
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      USER_RETENTION_DAYS: ${USER_RETENTION_DAYS:-1095}
+      SWAGGER_ENABLED: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  cbse-cs-hub:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./cbse-cs-hub:/app
+      - /app/node_modules
+    command: ["npm", "run", "start", "--", "--host", "0.0.0.0", "--configuration", "development"]
+    ports:
+      - "4200:4200"
+    environment:
+      API_URL: http://cbse-api:8080
+    depends_on:
+      - cbse-api
+
+volumes:
+  postgres_data:
+  redis_data:

@@ -1,0 +1,3 @@
+// This directory contains static content JSON files (questions, exercises).
+// Files are served directly by the Angular/Vercel static host.
+// The Spring Boot API validates entitlement but does NOT serve these files.
